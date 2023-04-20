@@ -9,7 +9,8 @@ import { tabContentStyle } from "../styles/styles";
 import UnreadNotifications from "../UnreadNotifications/UnreadNotifications";
 import ConfirmedCasesTopPathogens from "../ConfirmedCasesTopPathogens/ConfirmedCasesTopPathogens";
 import IncidentsOverview from "../IncidentsOverview/IncidentsOverview";
-
+import LastFiveCases from "./LastFiveCases";
+import Overview from "./Overview";
 function HomeTemplate() {
   const [showMap, setShowMap] = useState(true);
 
@@ -34,28 +35,10 @@ function HomeTemplate() {
         Overview
       </Typography>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
-          <Paper style={tabContentStyle}>
-            <Cases />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper style={tabContentStyle}>
-            <PossibleCasesAndContaminations />
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Paper style={tabContentStyle}>
-            <UnreadNotifications />
-          </Paper>
-        </Grid>
-      </Grid>
+      <Overview></Overview>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6} sx={{ height: "100%" }}>
+        <Grid item xs={12} md={6} sx={{ height: "inherit" }}>
           <Typography
             sx={{ margin: "48px 0px 25px", fontSize: "20px", fontWeight: 700 }}
             color="primary"
@@ -64,11 +47,9 @@ function HomeTemplate() {
           >
             Incidents Overview
           </Typography>
-          <Paper style={tabContentStyle}>
-            <IncidentsOverview />
-          </Paper>
+            <LastFiveCases />
         </Grid>
-        <Grid item xs={12} md={6} sx={{ height: "100%" }}>
+        <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
           <Typography
             sx={{ margin: "48px 0px 25px", fontSize: "20px", fontWeight: 700 }}
             color="primary"
