@@ -34,6 +34,8 @@ function MapTab() {
   const theme = useTheme();
   const [data, setData] = React.useState();
 
+
+
   const fetchData = async () => {
     const resp = await fetch(
       `${process.env.REACT_APP_API_URL}/incidents?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTYwMDk3MzUxMywiZXhwIjoxNjAxNTc4MzEzfQ.OymFrLMMYgFAnYpveZPTgJVg6shCMhducqmZ21oYzY8&ward=2`
@@ -131,6 +133,15 @@ function MapTab() {
     labelInfo: PropTypes.string,
     labelText: PropTypes.string.isRequired,
   };
+
+  function convertDateFormat(dateString) {
+    const date = new Date(dateString);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  }
 
   const severityRefs = ["Low", "Medium", "High"];
 
@@ -381,7 +392,7 @@ function MapTab() {
           >
             <Grid container spacing={2}>
               <Grid item xs={12} md={2}>
-                <div className="date">{incident.date}</div>
+                <div className="date">{convertDateFormat(incident.date)}</div>
               </Grid>
               <Grid item xs={12} md={2}>
                 <div className="name blue">
