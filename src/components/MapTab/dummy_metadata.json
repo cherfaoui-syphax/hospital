@@ -1,0 +1,197 @@
+{
+    "0": {
+        "name": "Key 1",
+        "type": "key"
+    },
+    "1": 
+    {
+        "name": "Hagit Kristensen",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "2": 
+    {
+        "name": "Carmel Dixon",
+        "disease": "MRSA",
+        "severity": 2,
+        "mitigation": "Incomplete",
+        "type": "infected",
+        "mac": "A0764E77C340",
+        "date": "13 July, 2022"
+    },
+    "3": {
+        "name": "Vesna Malone",
+        "type": "uninfected"
+    },
+    "4": {
+        "name": "Dan Haber",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "5": {
+        "name": "Darayavahush Turchi",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "6": {
+        "name": "Anabella Edgar",
+        "type": "uninfected"
+    },
+    "7": {
+        "name": "Deemer Sumner",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "8": {
+        "name": "Hub 1",
+        "disease": "",
+        "type": "hub",
+        "date": ""
+    },
+    "9": {
+        "name": "Hans Christian Anderson",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "10": {
+        "name": "Cailyn Bronson",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "11": {
+        "name": "Ally Bisset",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "12": {
+        "name": "Lavender Chamberlain",
+        "disease": "",
+        "type": "uninfected",
+        "mac": "A0764E77A584",
+        "date": ""
+    },
+    "13": {
+        "name": "Desmond Hall",
+        "disease": "Escherichia coli",
+        "type": "infected",
+        "date": "",
+        "mac": "A0764E77A588"
+    },
+    "14": {
+        "name": "Jack Strange",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "15": {
+        "name": "Nelda Adamson",
+        "disease": "C.difficile",
+        "severity": 1,
+        "mitigation": "Incomplete",
+        "type": "infected",
+        "date": "13 July, 2022"
+    },
+    "16": {
+        "name": "Hub 2",
+        "disease": "",
+        "type": "hub",
+        "date": ""
+    },
+    "17": {
+        "name": "Hub 3",
+        "disease": "",
+        "type": "hub",
+        "date": ""
+    },
+    "18": {
+        "name": "Lilly Smith",
+        "disease": "C.difficile",
+        "mitigation": "Incomplete",
+        "severity": 1,
+        "type": "room",
+        "date": "13 July, 2022"
+    },
+    "19": {
+        "name": "Shanon Bullard",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "20": {
+        "name": "Beckham Eady",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "21": {
+        "name": "Blaine Hubbard",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "22": {
+        "name": "Michelle Winters",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "23": {
+        "name": "Piety Keighley",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "24": {
+        "name": "Greg Paternoster",
+        "type": "uninfected",
+        "disease": "",
+        "date": ""
+    },
+    "25": {
+        "name": "Darin Elder",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "26": {
+        "name": "Kylan Poole",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "27": {
+        "name": "Amos Stanton",
+        "disease": "MRSA",
+        "severity": 2,
+        "mitigation": "Incomplete",
+        "type": "infected",
+        "date": "13 July, 2022"
+    },
+    "28": {
+        "name": "Hub 5",
+        "disease": "",
+        "type": "hub",
+        "date": ""
+    },
+    "29": {
+        "name": "William Fitzgerald",
+        "disease": "",
+        "type": "uninfected",
+        "date": ""
+    },
+    "30": {
+        "name": "Jessica Thompson",
+        "disease": "Escherichia coli",
+        "severity": 0,
+        "mitigation": "Incomplete",
+        "type": "room",
+        "date": "13 July, 2022"
+    }
+}

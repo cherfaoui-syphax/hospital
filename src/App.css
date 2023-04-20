@@ -1,0 +1,755 @@
+body {
+  font-family: "Open Sans";
+  /*background-color: #eaf3ff !important;*/
+  background-color: #f5f5f5;
+  color: #4d6879;
+}
+
+#root,
+#root > div[data-amplify-theme="default-theme"],
+#sidebar > div {
+  height: 100vh !important;
+}
+
+#sidebar > div {
+  padding: 35px 0px !important;
+  background-image: linear-gradient(
+    132deg,
+    rgb(43, 53, 83),
+    rgb(43, 53, 83),
+    rgb(43, 53, 83),
+    rgb(26, 32, 50)
+  ) !important;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.amplify-tabs {
+  display: none !important;
+}
+
+div[data-amplify-router] > div > div[role="tablist"]:before {
+  content: "Log in to Proxximos";
+  color: #fff;
+  font-size: 19px;
+  align-self: center;
+  width: 100%;
+  display: block;
+  font-weight: 100;
+  text-align: center;
+}
+
+.amplify-input {
+  background-color: #fff !important;
+}
+
+.amplify-input,
+.amplify-button {
+  border: 0px !important;
+}
+
+.amplify-input::placeholder {
+  color: #828282 !important;
+}
+
+div[data-amplify-router] {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 0px !important;
+  margin-top: 213px;
+  height: 550px;
+}
+
+div[data-amplify-authenticator][data-variation="modal"] {
+  background: linear-gradient(
+    180deg,
+    #2b3553 0%,
+    #2b3553 27.08%,
+    #2b3553 43.75%,
+    #1a2032 100%
+  ) !important;
+  position: relative;
+}
+
+.amplify-field__show-password {
+  background-color: #ffffff !important;
+}
+
+button.amplify-button.amplify-button--primary {
+  border-radius: 50px !important;
+  background-color: #0b6fff !important;
+  align-self: center !important;
+  padding: 12px 28px !important;
+  margin-top: 19px !important;
+  width: auto !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.amplify-flex > button.amplify-button.amplify-button--small {
+  align-self: center !important;
+  width: auto !important;
+  color: #fff !important;
+  right: 280px;
+  top: 358px;
+  position: absolute;
+  /* right: 20px;
+  bottom: 95px; */
+}
+
+button.amplify-button.amplify-button--primary[data-loading="true"] {
+  opacity: 80%;
+}
+
+button.amplify-field-group__control.amplify-button--link {
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+}
+
+.cant-log-in {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  position: absolute;
+  z-index: 2;
+  place-self: auto;
+  width: 100px;
+  top: 646px;
+  left: 50%;
+  margin-left: 77px;
+  display: block;
+}
+
+button.amplify-field-group__control.amplify-button--link:hover {
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+div[data-amplify-router-content],
+form[data-amplify-form] {
+  position: relative;
+}
+
+div[data-amplify-footer] {
+  /* position: absolute;
+  right: 20px;
+  bottom: 95px; */
+  margin-left: 45px;
+  text-align: left !important;
+  position: absolute;
+  top: 326px;
+}
+
+div[data-amplify-container] {
+  background-image: url("assets/proxximos-logo2.png");
+  background-size: 228px 160px;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px;
+  place-self: auto !important;
+}
+
+h3.amplify-heading.amplify-heading--3 {
+  font-size: 19px;
+  color: #fff;
+  font-weight: 100;
+}
+
+#sidebar-logo {
+  padding: 0px;
+  margin: auto auto auto auto;
+  display: block;
+  height: 84px;
+  position: relative !important;
+  inset: initial !important;
+}
+
+.textfield {
+  margin: 20px;
+  position: relative;
+}
+
+#frame {
+  background-image: linear-gradient(131.48deg, #ffffff 0.42%, #fafafa 73.46%);
+}
+
+.logocontainer {
+  text-align: center;
+  margin: 10px 10px 10px 10px;
+  height: 50px;
+  width: 70px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+}
+
+.MuiTabs-scroller {
+  overflow: visible !important;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
+}
+
+.app-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 100%;
+  width: 100%;
+  display: grid;
+}
+
+.bottom-navbar {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: -41px;
+  z-index: 2;
+}
+
+.bottom-navbar a {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.date-field fieldset {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 12px 0px;
+}
+
+.MuiDataGrid-cell--withRenderer {
+  outline: 0px !important;
+}
+
+.incident-title {
+  background-color: #4d6879;
+  padding: 24px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.label {
+  border-radius: 3px;
+  text-transform: capitalize;
+  padding: 6px 12px;
+  color: #293555;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.label.confirmed-case {
+  background-color: #ff7a7a;
+  min-width: 144px;
+  margin-bottom: 26px;
+}
+
+.label.high-exposure {
+  background-color: #ffb3cd;
+  min-width: 144px;
+}
+
+.label.medium-exposure {
+  background-color: #ffba7a;
+  min-width: 144px;
+}
+
+.label.low-exposure {
+  background-color: #fff5bf;
+  min-width: 144px;
+}
+
+.index-case {
+  padding: 26px;
+}
+
+.exposure {
+  border-bottom: 1px solid #889aa5;
+  border-left: 1px solid #889aa5;
+  padding: 26px;
+}
+
+.exposure:last-child {
+  border-bottom-width: 0px;
+}
+
+.mitigation-status .MuiOutlinedInput-notchedOutline {
+  border: 2px solid #889aa5;
+}
+
+.MuiSvgIcon-root {
+  color: #1c54c1;
+}
+
+.MuiButton-root {
+  text-transform: none !important;
+}
+
+.exposures .who {
+  display: flex;
+  flex-direction: row;
+}
+
+.exposures .who .icon {
+  padding-right: 10px;
+}
+
+.blue {
+  color: #4198d0;
+}
+
+.title-colon {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.index-case {
+  color: #4d6879;
+  line-height: 25px;
+}
+
+.index-case .name {
+  font-size: 17px;
+  margin: 12px 0px;
+}
+
+.index-case .notes-count {
+  display: flex;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.index-case .notes-count .icon {
+  margin-right: 6px;
+}
+
+.incident-title {
+  display: flex;
+}
+
+.incident-title-text {
+  flex: 1;
+  display: flex;
+  align-self: center;
+}
+
+.incident-box .exposure-heatmap-link {
+  text-decoration: underline;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cases {
+  position: relative;
+  padding: 10px 30px 45px 30px;
+}
+
+.cases-content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.case {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.case-number {
+  color: #4d6879;
+  font-size: 70px;
+  font-weight: 500;
+}
+
+.case-label {
+  background-color: #ff7a7a;
+  font-weight: 500;
+  text-align: center;
+}
+
+.high-exposure {
+  background-color: #ffb3cd;
+}
+
+.medium-exposure {
+  background-color: #ffba7a;
+}
+
+.low-exposure {
+  background-color: #fff5bf;
+}
+
+.notifications {
+  position: relative;
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.notifications .date {
+  color: #889aa5;
+}
+
+.notification .content,
+.top-pathogens .row {
+  color: #4d6879;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.notifications-rows {
+  height: 265px;
+  overflow: scroll;
+  border-radius: 13px;
+}
+
+.notification .name,
+.notification .id {
+  color: #4198d0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.notification .name {
+  padding: 0px 3px 0px 7px;
+}
+
+.notifications .white-gradient {
+  height: 50px;
+  position: absolute;
+  bottom: 2px;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 130%
+  );
+  width: calc(100% - 10px);
+}
+
+.top-pathogens .row-metadata {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-pathogens,
+.incidents-overview {
+  padding: 19px 37px 32px;
+}
+
+.incidents-overview {
+  height: 398px;
+}
+
+.incidents-overview .title {
+  padding: 21px 0px;
+  display: flex;
+  justify-content: right;
+}
+
+.top-pathogens .row {
+  padding: 10px 0px;
+}
+
+.top-pathogens .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.barchart-container {
+  padding: 2rem;
+  border: 1px solid #a1adb5;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.barchart-container text {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.barchart-select {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+}
+
+.barchart-select > * {
+  width: 10rem;
+  margin-left: auto;
+}
+
+.barchart-select svg {
+  font-size: 3rem;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.search-icon-wrapper {
+  color: rgba(0, 0, 0, 0.15);
+  margin-top: 7px;
+}
+
+.map-container {
+  position: relative;
+  background-color: #f5f5f5;
+  padding: 45px 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.map-container-inner {
+  overflow: hidden;
+  height: 600px;
+  border: none;
+}
+
+.subdued-text {
+  color: #828282;
+  font-size: 14px;
+}
+
+.select-all-pathogens {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.search-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.box-shadow {
+  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 6px 15px;
+}
+
+.box-shadow-light {
+  box-shadow: 0px 3px 5px rgb(0 0 0 / 4%);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.incident-content {
+  padding: 20px 26px;
+  margin: 10px;
+}
+
+.app-container {
+  background-color: #f5f5f5;
+}
+
+.capitalized {
+  text-transform: uppercase;
+}
+
+body .MuiOutlinedInput-root {
+  color: #1c54c1;
+  font-weight: 600;
+}
+
+.MuiOutlinedInput-root fieldset {
+  border-radius: 35px;
+  border: 1px solid #1c54c1;
+  margin: -9px -9px;
+  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
+}
+
+.MuiOutlinedInput-root svg {
+  color: #1c54c1;
+}
+
+.MuiButton-root.MuiButton-outlined {
+  border-radius: 35px;
+  border: 1px solid #1c54c1;
+  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  padding: 30px;
+  background-color: #fff;
+}
+
+.with-margins {
+  margin: 20px;
+}
+
+.padded {
+  padding: 20px;
+}
+
+.rounded-sm {
+  border-radius: 6px;
+}
+
+body .rounded-lg {
+  border-radius: 35px;
+}
+
+.pull-right {
+  display: flex;
+  justify-content: end;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+}
+
+.watch-event-modal {
+  width: 1500px;
+  height: 730px;
+  overflow: auto;
+  padding: 0px;
+}
+
+body .close-button {
+  line-height: 0;
+  padding: 7px 21px;
+  margin-top: 7px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #687a87;
+}
+
+body .close-button svg {
+  font-size: 16px;
+  margin-left: 3px;
+  color: #687a87;
+}
+
+.watch-event-map-container {
+  transform: scale(40%);
+  position: absolute;
+  background-color: #d0d0d0;
+  width: 2410px;
+  left: -723px;
+  padding: 50px;
+  top: -425px;
+}
+
+.watch-event-controls {
+  display: flex;
+  position: absolute;
+  bottom: -45px;
+  height: 105px;
+  align-items: center;
+  left: 0px;
+  right: 0px;
+  background-color: #13284c;
+}
+
+.watch-event-controls svg {
+  font-size: 80px;
+  color: #fff;
+}
+
+.watch-event-controls .control {
+  padding: 0px 10px;
+  cursor: pointer;
+}
+
+.watch-event-controls .seek-container {
+  font-size: 32px;
+  color: white;
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.watch-event-controls .seek-container > * {
+  margin: 15px;
+}
+
+.watch-event-controls .seeker-track {
+  border: 1px solid #fff;
+  height: 18px;
+  flex: 1;
+  display: inline-flex;
+  justify-content: start;
+  position: relative;
+}
+
+.watch-event-controls .seeker-track .progress-indicator {
+  height: 100%;
+  background-color: #fff;
+}
+
+.watch-event-controls .seeker-track .time-marker {
+  position: absolute;
+  left: 0px;
+  height: 100%;
+  background-color: red;
+  width: 10px;
+  margin-left: -5px;
+  min-width: 0px;
+  padding: 0px;
+}
