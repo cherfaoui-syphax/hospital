@@ -25,8 +25,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { nodeWrapper, nodeName } from "./styles";
-
+import { nodeWrapper, nodeName ,iconStyle } from "./styles";
+import PlaceIcon from '@mui/icons-material/Place';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 function MapTab() {
   const [rows, setRows] = React.useState([]);
   const [isTransmissionModalOpen, setIsTransmissionModalOpen] = useState(false);
@@ -293,25 +295,26 @@ function MapTab() {
           </div>
         </Grid>
       </Grid>
-      <div className="subdued-text capitalized" style={{ marginLeft: "20px" }}>
+      <div className="incident-content rounded-sm with-margins padded ">
         <Grid container spacing={2}>
           <Grid item xs={12} md={2}>
-            Date
+            DATE
           </Grid>
           <Grid item xs={12} md={2}>
-            Name
+            NAME
           </Grid>
-          <Grid item xs={12} md={2}>
-            Role
+          <Grid item xs={12} md={1}>
+            ROLE
           </Grid>
-          <Grid item xs={12} md={2}>
-            Pathogen
+          <Grid item xs={12} md={1}>
+            PATHOGEN
           </Grid>
-          <Grid item xs={12} md={2}>
-            Contacts | contaminations
+          <Grid item xs={12} md={3}>
+            CONTACTS | CONTAMINATIONS
           </Grid>
         </Grid>
       </div>
+      
       {data?.map((incident, index) => (
         <div className="incident-box">
           {/* <div className="incident-title">
@@ -388,7 +391,7 @@ function MapTab() {
 
           <div
             className="incident-content rounded-sm with-margins padded box-shadow"
-            style={{ backgroundColor: "#fff" }}
+            style={{ backgroundColor: "#fff"  }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} md={2}>
@@ -396,26 +399,26 @@ function MapTab() {
               </Grid>
               <Grid item xs={12} md={2}>
                 <div className="name blue">
-                  {incident.index.name} ({incident.index.id})
+                  {incident.index.name} <br/> ({incident.index.id})
                 </div>
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={12} md={1}>
                 <div className="role">{incident.role}</div>
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={12} md={1}>
                 <div className="pathogen">{incident.pathogen}</div>
               </Grid>
               <Grid item xs={12} md={2}>
                 <div className="exposures">
-                  {incident &&
+                {<PersonIcon style={{color:"black" , ...iconStyle}} > </PersonIcon>} {incident &&
                     incident.exposures.filter(
                       (exposure) => exposure.type === "person"
-                    ).length}{" "}
-                  |
-                  {incident &&
-                    incident.exposures.filter(
-                      (exposure) => exposure.type === "room"
                     ).length}
+                  <div style={{width:30,textAlign:"center",display:"inline-block"}}>|</div>
+                  {<PlaceIcon style={{color:"black",...iconStyle}}></PlaceIcon>} {incident &&
+                    (incident.exposures.filter(
+                      (exposure) => exposure.type === "room"
+                    ).length )}
                   {/* {incident.exposures.map((exposure, length) => (
                       <div className="exposure">
                         <Grid container spacing={2}>
@@ -562,13 +565,19 @@ function MapTab() {
                     ))} */}
                 </div>
               </Grid>
-              <Grid item xs={12} md={2}>
-                <a className="name blue" href={`/case/${incident.id}/detail`}>
-                  See contacts & contaminations
+              <Grid item xs={12} md={2.5}>
+                <a className="name blue see-contacts" href={`/case/${incident.id}/detail`}>
+                  See contacts & contaminations <KeyboardArrowRightIcon style={iconStyle}></KeyboardArrowRightIcon>
+                </a>
+              </Grid>
+              <Grid item xs={12} md={1.5}>
+                <a className="printer name blue" href={`/case/${incident.id}/print`}>
+                <LocalPrintshopIcon style={iconStyle}></LocalPrintshopIcon>  Print 
                 </a>
               </Grid>
             </Grid>
           </div>
+
         </div>
       ))}
 

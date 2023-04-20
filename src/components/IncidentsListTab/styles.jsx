@@ -86,3 +86,7 @@ export const modalStyle = {
     marginRight: '1rem',
   };
   
+
+  export const iconStyle = {
+    marginBottom:"-6px", 
+  };

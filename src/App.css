@@ -759,3 +759,11 @@ body .close-button svg {
   padding: 0px;
   margin-top: -14px;
 }
+
+.exposures , .pathogen , .role , .date , .name.blue.see-contacts ,.printer{
+  line-height: 3;
+}
+
+.printer{
+  margin-left: 25%;
+}
