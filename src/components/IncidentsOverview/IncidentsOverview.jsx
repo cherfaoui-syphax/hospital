@@ -146,7 +146,7 @@ function IncidentsOverview() {
 
   return (
     <div className="incidents-overview" ref={ref}>
-      <div class="title">
+      <div className="title">
         <div className="incidents-overview-select">
           <Select
             id="incidents-overview-date-range"

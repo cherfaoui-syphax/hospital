@@ -592,6 +592,10 @@ a {
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+.box-shadow-white {
+  background-color: #fff;
+}
+
 .incident-content {
   padding: 20px 26px;
   margin: 10px;
@@ -723,6 +727,7 @@ body .close-button svg {
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
+  cursor: default;
 }
 
 .watch-event-controls .seek-container > * {
@@ -746,10 +751,11 @@ body .close-button svg {
 .watch-event-controls .seeker-track .time-marker {
   position: absolute;
   left: 0px;
-  height: 100%;
+  height: 45px;
   background-color: red;
-  width: 10px;
+  width: 13px;
   margin-left: -5px;
   min-width: 0px;
   padding: 0px;
+  margin-top: -14px;
 }

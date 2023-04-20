@@ -66,14 +66,14 @@
     },
     "11": {
         "name": "Ally Bisset",
-        "disease": "",
-        "type": "uninfected",
+        "disease": "Escherichia coli",
+        "type": "infected",
         "date": ""
     },
     "12": {
         "name": "Lavender Chamberlain",
-        "disease": "",
-        "type": "uninfected",
+        "disease": "Escherichia coli",
+        "type": "infected",
         "mac": "A0764E77A584",
         "date": ""
     },
