@@ -453,7 +453,7 @@ function CaseDetail(props) {
           >
             <h2>Index Case</h2>
             <div
-              className="subdued-text capitalized"
+              className="subdued-text capitalized incident-content rounded-sm with-margins padded" 
               style={{ marginLeft: "20px" }}
             >
               <Grid container spacing={2}>
@@ -479,7 +479,7 @@ function CaseDetail(props) {
                   </Grid>
                   <Grid item xs={12} md={2}>
                     <div className="name blue">
-                      {data.index.name} ({data.index.id})
+                      {data.index.name}  <br/> ({data.index.id})
                     </div>
                   </Grid>
                   <Grid item xs={12} md={2}>
@@ -493,7 +493,7 @@ function CaseDetail(props) {
             </div>
             <h2>Contacts & Contaminations</h2>
             <div
-              className="subdued-text capitalized"
+              className="subdued-text capitalized incident-content rounded-sm with-margins padded"
               style={{ marginLeft: "20px" }}
             >
               <Grid container spacing={2}>
@@ -525,13 +525,13 @@ function CaseDetail(props) {
                     <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
                       <Grid container spacing={2}>
                         <Grid item xs={12} md={2}>
-                          <div className="name blue">
+                          <div className="name blue full-name">
                             {exposure.name}{" "}
                             {exposure.type === "room" ? "" : `(${exposure.id})`}
                           </div>
                         </Grid>
                         <Grid item xs={12} md={2}>
-                          <div className="name blue">{exposure.role}</div>
+                          <div className="name blue role">{exposure.role}</div>
                         </Grid>
                         <Grid item xs={12} md={2}>
                           <div className="occurrence-time">{exposure.date}</div>
@@ -540,7 +540,7 @@ function CaseDetail(props) {
                           <div className="pathogen">{duration}</div>
                         </Grid>
                         <Grid item xs={12} md={2}>
-                          <div className="distance">{exposure.distance}</div>
+                          <div className="distance">{exposure.distance} m</div>
                         </Grid>
                         <Grid item xs={12} md={2}>
                           <Button
@@ -553,7 +553,7 @@ function CaseDetail(props) {
                               )
                             }
                           >
-                            Watch event
+                           ▶ Watch event
                           </Button>
                         </Grid>
                       </Grid>

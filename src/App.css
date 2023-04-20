@@ -771,7 +771,7 @@ body .close-button svg {
   margin-top: -14px;
 }
 
-.exposures , .pathogen , .role , .date , .name.blue.see-contacts ,.printer{
+.exposures , .pathogen , .role , .date , .name.blue.see-contacts ,.printer , .name.blue.watch-event , .name.blue.full-name , .distance , .occurrence-time{
   line-height: 3;
 }
 
