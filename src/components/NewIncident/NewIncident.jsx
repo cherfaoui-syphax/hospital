@@ -20,6 +20,8 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import IncidentsListTab from "../IncidentsListTab/IncidentsListTab";
 import { DataGrid } from "@mui/x-data-grid";
 import { tabContentStyle, paddedPaper } from "../styles/styles";
+import dayjs, { Dayjs } from 'dayjs';
+
 
 function NewIncident() {
   const [fetchingMitigations, setFetchingMitigations] = useState(false);
@@ -38,7 +40,7 @@ function NewIncident() {
   const [incidentInput1, setIncidentInput1] = useState("");
   const [incidentInput2, setIncidentInput2] = useState("");
   const [incidentInput3, setIncidentInput3] = useState();
-  const [incidentInput4, setIncidentInput4] = useState(new Date());
+  const [incidentInput4, setIncidentInput4] = React.useState(dayjs());
   const [pathogens, setPathogens] = useState();
   const [dummyRows, setDummyRows] = useState([
     {
@@ -245,7 +247,7 @@ function NewIncident() {
   });
 
   return (
-    <>
+    <div id="new-incident-page" style={{paddingTop:"clamp(100px,10vh,300px"}}>
       <Paper style={{ ...tabContentStyle, ...paddedPaper }}>
         <form
           onSubmit={(evt) => submitIncident(evt)}
@@ -289,7 +291,7 @@ function NewIncident() {
                     label="Date"
                     inputFormat="D MMM, YYYY hh:mm a"
                     value={incidentInput4}
-                    onChange={setIncidentInput4}
+                    onChange={(newValue) => setIncidentInput4(newValue)}
                     renderInput={(params) => {
                       return (
                         <TextField
@@ -522,13 +524,13 @@ function NewIncident() {
               >
                 <div style={{ fontWeight: "bold" }}>Details</div>
               </Grid>
-              <Grid xs={10}>
+              <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
                   <TextField
                     id="mitigation-details"
                     label="Add notes here"
                     multiline
-                    rows={4}
+                    rows={6}
                     value={incidentText}
                     onChange={onChangeIncidentText}
                   />
@@ -663,7 +665,7 @@ function NewIncident() {
           {fetchingMitigations && <CircularProgress />}
         </FormControl>
       </div>
-    </>
+    </div>
   );
 }
 
