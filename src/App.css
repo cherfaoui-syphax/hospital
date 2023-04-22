@@ -621,17 +621,6 @@ body .MuiOutlinedInput-root {
   box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
 }
 
-#new-incident-page .MuiOutlinedInput-root fieldset {
-  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  padding: 6px 15px;
-  margin: -9px -9px;
-  border-radius: 6px;
-}
-#new-incident-page .MuiGrid-root.MuiGrid-container{
-  margin-top: 20px;
-}
-
 .MuiOutlinedInput-root svg {
   color: #1c54c1;
 }
@@ -771,10 +760,30 @@ body .close-button svg {
   margin-top: -14px;
 }
 
-.exposures , .pathogen , .role , .date , .name.blue.see-contacts ,.printer , .name.blue.watch-event , .name.blue.full-name , .distance , .occurrence-time{
+.exposures,
+.pathogen,
+.role,
+.date,
+.name.blue.see-contacts,
+.printer,
+.name.blue.watch-event,
+.name.blue.full-name,
+.distance,
+.occurrence-time {
   line-height: 3;
 }
 
-.printer{
+.printer {
   margin-left: 25%;
+}
+
+#new-incident-page .MuiOutlinedInput-root fieldset {
+  box-shadow: 0px 3px 5px rgb(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 6px 15px;
+  margin: -9px -9px;
+  border-radius: 6px;
+}
+#new-incident-page .MuiGrid-root.MuiGrid-container {
+  margin-top: 20px;
 }

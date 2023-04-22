@@ -15,16 +15,16 @@ Amplify.configure(awsconfig);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div className="app-container">
+    <div class="app-container">
       <AmplifyProvider>
         {/* <Authenticator.Provider> */}
         <BrowserRouter>
           <App />
           <a 
-          className="cant-log-in"
+          class="cant-log-in"
           href="#"
         >Can't log in?</a>
-          <div className="bottom-navbar">
+          <div class="bottom-navbar">
             <a href="#">Security noticeboard</a>
             <a href="#">Terms of use</a>
             <a href="#">Privacy</a>

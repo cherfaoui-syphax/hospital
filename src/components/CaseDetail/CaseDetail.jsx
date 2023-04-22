@@ -453,7 +453,7 @@ function CaseDetail(props) {
           >
             <h2>Index Case</h2>
             <div
-              className="subdued-text capitalized incident-content rounded-sm with-margins padded" 
+              className="subdued-text capitalized incident-content rounded-sm with-margins padded"
               style={{ marginLeft: "20px" }}
             >
               <Grid container spacing={2}>
@@ -479,7 +479,7 @@ function CaseDetail(props) {
                   </Grid>
                   <Grid item xs={12} md={2}>
                     <div className="name blue">
-                      {data.index.name}  <br/> ({data.index.id})
+                      {data.index.name} <br /> ({data.index.id})
                     </div>
                   </Grid>
                   <Grid item xs={12} md={2}>
@@ -553,7 +553,7 @@ function CaseDetail(props) {
                               )
                             }
                           >
-                           ▶ Watch event
+                            ▶ Watch event
                           </Button>
                         </Grid>
                       </Grid>
@@ -563,305 +563,286 @@ function CaseDetail(props) {
               })}
           </div>
 
-
-            {currentExposure && (
-              <>
-                <Modal
-                  open={watchEventOpen}
-                  onClose={handleWatchEventClose}
-                  aria-labelledby="Watch Event"
-                  aria-describedby="Watch step-by-step replay of contamination event"
-                >
-                  <div className="modal-content watch-event-modal">
-                    <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <div
-                          className="box-shadow box-shadow-light border-light"
-                          style={{ lineHeight: 0, padding: "12px 31px" }}
-                        >
-                          <Grid container spacing={2}>
-                            <Grid item xs={9}>
-                              <h2
-                                style={{
-                                  position: "absolute",
-                                  left: 0,
-                                  right: 0,
-                                }}
-                                className="centered"
-                              >
-                                <strong>
-                                  Watch encounter between {data.index.name} and{" "}
-                                  {currentExposure.name}
-                                </strong>
-                              </h2>
-                            </Grid>
-                            <Grid item xs={3}>
-                              <div className="pull-right">
-                                <Button
-                                  onClick={handleWatchEventClose}
-                                  className="box-shadow close-button rounded-lg"
-                                >
-                                  Close{" "}
-                                  <span className="close-icon">
-                                    <CloseIcon />
-                                  </span>
-                                </Button>
-                              </div>
-                            </Grid>
-                          </Grid>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        <div className="watch-event-map-container">
-                          <FloorplanSvg
-                            id={"floorplan"}
-                            markers={markers}
-                            reference={svgRef}
-                            style={{ width: "2282px", height: "1518px" }}
-                          />
-                          {replayData  &&
-                            Object.keys(replayData).map((index) => (
-                              <>
-                                {Object.keys(replayData[index]).map(
-                                  (frameStep) => {
-                                    const framePosition =
-                                      new Date(
-                                        replayData[index][frameStep].date
-                                      ).getTime() - actualStartTime.current;
-                                    return (
-                                      <>
-                                        {replayData[index][frameStep] &&
-                                        framePosition <= seekTime ? (
-                                          <div
-                                            // onClickAway={clickAwayListener}
-                                            style={{
-                                              position: "absolute",
-                                              left:
-                                                replayData[index][frameStep].x +
-                                                "px",
-                                              top:
-                                                replayData[index][frameStep].y +
-                                                "px",
-                                              transition: "all 2s linear",
-                                            }}
-                                          >
-                                            <HtmlTooltip
-                                              id={`bug-${index}-${frameStep}`}
-                                              leaveDelay={7000}
-                                              // open={tooltipOpen === index}
-                                              title={
-                                                <>
-                                                  <div>
-                                                    {dummyMetadata[
-                                                      String(index)
-                                                    ] &&
-                                                      dummyMetadata[String(index)]
-                                                        .name &&
-                                                      `Name: ${
-                                                        dummyMetadata[
-                                                          String(index)
-                                                        ].name
-                                                      }`}
-                                                  </div>
-                                                  <div>
-                                                    {dummyMetadata[
-                                                      String(index)
-                                                    ] &&
-                                                      dummyMetadata[String(index)]
-                                                        .disease &&
-                                                      `Disease: ${
-                                                        dummyMetadata[
-                                                          String(index)
-                                                        ].disease
-                                                      }`}{" "}
-                                                  </div>
-                                                  <div>
-                                                    {dummyMetadata[
-                                                      String(index)
-                                                    ] &&
-                                                      dummyMetadata[String(index)]
-                                                        .date &&
-                                                      `Incident date: ${
-                                                        dummyMetadata[
-                                                          String(index)
-                                                        ].date
-                                                      }`}
-                                                  </div>
-                                                </>
-                                              }
-                                            >
-                                              <div>
-                                                {mapIcon(
-                                                  index,
-                                                  frameStep,
-                                                  replayData[index][frameStep],
-                                                  dummyMetadata[String(index)]
-                                                )}
-                                              </div>
-                                            </HtmlTooltip>
-                                          </div>
-                                        ) : (
-                                          <></>
-                                        )}
-                                      </>
-                                    );
-                                  }
-                                )}
-                              </>
-                            ))}
-                          <div className="watch-event-controls">
-                            <div className="control play-wrapper">
-                              {replaying ? (
-                                <Button onClick={handlePause}>
-                                  <PauseIcon />
-                                </Button>
-                              ) : (
-                                <Button onClick={handlePlay}>
-                                  <PlayArrowIcon />
-                                </Button>
-                              )}
-                            </div>
-                            <div className="control forward-wrapper">
-                              <Button onClick={handleForward5Seconds}>
-                                <Forward5Icon />
-                              </Button>
-                            </div>
-                            <div className="control replay-wrapper">
-                              <Button onClick={handleRewind5Seconds}>
-                                <Replay5Icon />
-                              </Button>
-                            </div>
-                            <div className="control seek-container">
-                              <div className="seek-time">
-                                {moment(seekTime).format("mm:ss")}
-                              </div>
-                              <div className="seeker-track">
-                                <div
-                                  className="progress-indicator"
-                                  style={{
-                                    width: `${currentAnimationProgress}%`,
-                                  }}
-                                ></div>
-                                {timeMarkers.map((marker) => (
-                                  <Button
-                                    className="time-marker"
-                                    onClick={() => goToTimeMarker(marker)}
-                                    style={{
-                                      left: `${
-                                        (marker / actualDuration.current) * 100
-                                      }%`,
-                                    }}
-                                  ></Button>
-                                ))}
-                              </div>
-                              <div className="duration-time">
-                                {moment(eventAnimationDuration).format("mm:ss")}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={4}>
-                        {nextEvent ? (
-                          <div className="pull-right with-margins">
-                            <Button onClick={handleOpenNextEvent}>
-                              Next: {nextEvent.name}{" "}
-                              {nextEvent.id ? `(${nextEvent.id})` : ""}
+          {currentExposure && (
+            <Modal
+              open={watchEventOpen}
+              onClose={handleWatchEventClose}
+              aria-labelledby="Watch Event"
+              aria-describedby="Watch step-by-step replay of contamination event"
+            >
+              <div className="modal-content watch-event-modal">
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <div
+                      className="box-shadow box-shadow-light border-light"
+                      style={{ lineHeight: 0, padding: "12px 31px" }}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={9}>
+                          <h2
+                            style={{
+                              position: "absolute",
+                              left: 0,
+                              right: 0,
+                            }}
+                            className="centered"
+                          >
+                            <strong>
+                              Watch encounter between {data.index.name} and{" "}
+                              {currentExposure.name}
+                            </strong>
+                          </h2>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <div className="pull-right">
+                            <Button
+                              onClick={handleWatchEventClose}
+                              className="box-shadow close-button rounded-lg"
+                            >
+                              Close{" "}
+                              <span className="close-icon">
+                                <CloseIcon />
+                              </span>
                             </Button>
                           </div>
-                        ) : (
-                          <></>
-                        )}
-                        <div className="box-shadow rounded-sm padded with-margins">
-                          <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">
-                                Encounter date & time
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {currentExposure.date}
-                              </div>
-                            </Grid>
-                          </Grid>
-                        </div>
-                        <div className="box-shadow rounded-sm padded with-margins">
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <strong>Index case</strong>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">
-                                Full name
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {data.index.name}
-                              </div>
-                            </Grid>
-                          </Grid>
-                        </div>
-                        <div className="box-shadow rounded-sm padded with-margins">
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <strong>Contacts & contaminations</strong>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">
-                                Full name
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {currentExposure.name}
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">Role</div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {currentExposure.role}
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">
-                                Duration
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {moment(actualDuration.current).format(
-                                  actualDuration.current > 60000 ? "m" : "s"
-                                )}{" "}
-                                {actualDuration.current > 60000
-                                  ? `minutes ${moment(
-                                      actualDuration.current
-                                    ).format("s")} seconds`
-                                  : "seconds"}
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text capitalized">
-                                Distance
-                              </div>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <div className="subdued-text">
-                                {currentExposure.distance}
-                              </div>
-                            </Grid>
-                          </Grid>
-                        </div>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </div>
-                </Modal>
-
-              </>
-            )}
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={8}>
+                    <div className="watch-event-map-container">
+                      <FloorplanSvg
+                        id={"floorplan"}
+                        markers={markers}
+                        reference={svgRef}
+                        style={{ width: "2282px", height: "1518px" }}
+                      />
+                      {replayData &&
+                        Object.keys(replayData).map((index) => (
+                          <>
+                            {Object.keys(replayData[index]).map((frameStep) => {
+                              const framePosition =
+                                new Date(
+                                  replayData[index][frameStep].date
+                                ).getTime() - actualStartTime.current;
+                              return (
+                                <>
+                                  {replayData[index][frameStep] &&
+                                  framePosition <= seekTime ? (
+                                    <div
+                                      // onClickAway={clickAwayListener}
+                                      style={{
+                                        position: "absolute",
+                                        left:
+                                          replayData[index][frameStep].x + "px",
+                                        top:
+                                          replayData[index][frameStep].y + "px",
+                                        transition: "all 2s linear",
+                                      }}
+                                    >
+                                      <HtmlTooltip
+                                        id={`bug-${index}-${frameStep}`}
+                                        leaveDelay={7000}
+                                        // open={tooltipOpen === index}
+                                        title={
+                                          <>
+                                            <div>
+                                              {dummyMetadata[String(index)] &&
+                                                dummyMetadata[String(index)]
+                                                  .name &&
+                                                `Name: ${
+                                                  dummyMetadata[String(index)]
+                                                    .name
+                                                }`}
+                                            </div>
+                                            <div>
+                                              {dummyMetadata[String(index)] &&
+                                                dummyMetadata[String(index)]
+                                                  .disease &&
+                                                `Disease: ${
+                                                  dummyMetadata[String(index)]
+                                                    .disease
+                                                }`}{" "}
+                                            </div>
+                                            <div>
+                                              {dummyMetadata[String(index)] &&
+                                                dummyMetadata[String(index)]
+                                                  .date &&
+                                                `Incident date: ${
+                                                  dummyMetadata[String(index)]
+                                                    .date
+                                                }`}
+                                            </div>
+                                          </>
+                                        }
+                                      >
+                                        <div>
+                                          {mapIcon(
+                                            index,
+                                            frameStep,
+                                            replayData[index][frameStep],
+                                            dummyMetadata[String(index)]
+                                          )}
+                                        </div>
+                                      </HtmlTooltip>
+                                    </div>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </>
+                              );
+                            })}
+                          </>
+                        ))}
+                      <div className="watch-event-controls">
+                        <div className="control play-wrapper">
+                          {replaying ? (
+                            <Button onClick={handlePause}>
+                              <PauseIcon />
+                            </Button>
+                          ) : (
+                            <Button onClick={handlePlay}>
+                              <PlayArrowIcon />
+                            </Button>
+                          )}
+                        </div>
+                        <div className="control forward-wrapper">
+                          <Button onClick={handleForward5Seconds}>
+                            <Forward5Icon />
+                          </Button>
+                        </div>
+                        <div className="control replay-wrapper">
+                          <Button onClick={handleRewind5Seconds}>
+                            <Replay5Icon />
+                          </Button>
+                        </div>
+                        <div className="control seek-container">
+                          <div className="seek-time">
+                            {moment(seekTime).format("mm:ss")}
+                          </div>
+                          <div className="seeker-track">
+                            <div
+                              className="progress-indicator"
+                              style={{
+                                width: `${currentAnimationProgress}%`,
+                              }}
+                            ></div>
+                            {timeMarkers.map((marker) => (
+                              <Button
+                                className="time-marker"
+                                onClick={() => goToTimeMarker(marker)}
+                                style={{
+                                  left: `${
+                                    (marker / actualDuration.current) * 100
+                                  }%`,
+                                }}
+                              ></Button>
+                            ))}
+                          </div>
+                          <div className="duration-time">
+                            {moment(eventAnimationDuration).format("mm:ss")}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    {nextEvent ? (
+                      <div className="pull-right with-margins">
+                        <Button onClick={handleOpenNextEvent}>
+                          Next: {nextEvent.name}{" "}
+                          {nextEvent.id ? `(${nextEvent.id})` : ""}
+                        </Button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    <div className="box-shadow rounded-sm padded with-margins">
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized">
+                            Encounter date & time
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {currentExposure.date}
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                    <div className="box-shadow rounded-sm padded with-margins">
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <strong>Index case</strong>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized ">
+                            Full name
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">{data.index.name}</div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                    <div className="box-shadow rounded-sm padded with-margins">
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <strong>Contacts & contaminations</strong>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized">
+                            Full name
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {currentExposure.name}
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized">Role</div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {currentExposure.role}
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized">
+                            Duration
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {moment(actualDuration.current).format(
+                              actualDuration.current > 60000 ? "m" : "s"
+                            )}{" "}
+                            {actualDuration.current > 60000
+                              ? `minutes ${moment(
+                                  actualDuration.current
+                                ).format("s")} seconds`
+                              : "seconds"}
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text capitalized">
+                            Distance
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {currentExposure.distance}
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+            </Modal>
+          )}
         </>
       )}
     </>

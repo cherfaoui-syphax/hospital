@@ -25,18 +25,17 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { nodeWrapper, nodeName ,iconStyle } from "./styles";
-import PlaceIcon from '@mui/icons-material/Place';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import { nodeWrapper, nodeName, iconStyle } from "./styles";
+import PlaceIcon from "@mui/icons-material/Place";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
+
 function MapTab() {
   const [rows, setRows] = React.useState([]);
   const [isTransmissionModalOpen, setIsTransmissionModalOpen] = useState(false);
   const [rowsLoaded, setRowsLoaded] = React.useState(false);
   const theme = useTheme();
   const [data, setData] = React.useState();
-
-
 
   const fetchData = async () => {
     const resp = await fetch(
@@ -135,15 +134,6 @@ function MapTab() {
     labelInfo: PropTypes.string,
     labelText: PropTypes.string.isRequired,
   };
-
-  function convertDateFormat(dateString) {
-    const date = new Date(dateString);
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    const day = date.getDate();
-    const month = date.toLocaleString('en-US', { month: 'long' });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  }
 
   const severityRefs = ["Low", "Medium", "High"];
 
@@ -295,26 +285,25 @@ function MapTab() {
           </div>
         </Grid>
       </Grid>
-      <div className="incident-content rounded-sm with-margins padded ">
+      <div className="capitalized incident-content rounded-sm with-margins padded subdued-text">
         <Grid container spacing={2}>
           <Grid item xs={12} md={2}>
-            DATE
+            Date
           </Grid>
           <Grid item xs={12} md={2}>
-            NAME
+            Name
           </Grid>
-          <Grid item xs={12} md={1}>
-            ROLE
+          <Grid item xs={12} md={2}>
+            Role
           </Grid>
-          <Grid item xs={12} md={1}>
-            PATHOGEN
+          <Grid item xs={12} md={2}>
+            Pathogen
           </Grid>
-          <Grid item xs={12} md={3}>
-            CONTACTS | CONTAMINATIONS
+          <Grid item xs={12} md={2}>
+            Contacts | contaminations
           </Grid>
         </Grid>
       </div>
-      
       {data?.map((incident, index) => (
         <div className="incident-box">
           {/* <div className="incident-title">
@@ -389,17 +378,16 @@ function MapTab() {
             </Modal>
           </div> */}
 
-          <div
-            className="incident-content rounded-sm with-margins padded box-shadow"
-            style={{ backgroundColor: "#fff"  }}
-          >
+          <div className="incident-content rounded-sm with-margins padded box-shadow box-shadow-white">
             <Grid container spacing={2}>
               <Grid item xs={12} md={2}>
-                <div className="date">{convertDateFormat(incident.date)}</div>
+                <div className="date">{incident.date}</div>
               </Grid>
               <Grid item xs={12} md={2}>
                 <div className="name blue">
-                  {incident.index.name} <br/> ({incident.index.id})
+                  {incident.index.name}
+                  <br />
+                  {incident.index.id ? `(${incident.index.id})` : ""}
                 </div>
               </Grid>
               <Grid item xs={12} md={1}>
@@ -410,191 +398,60 @@ function MapTab() {
               </Grid>
               <Grid item xs={12} md={2}>
                 <div className="exposures">
-                {<PersonIcon style={{color:"black" , ...iconStyle}} > </PersonIcon>} {incident &&
+                  {
+                    <PersonIcon style={{ color: "black", ...iconStyle }}>
+                      {" "}
+                    </PersonIcon>
+                  }
+                  {incident &&
                     incident.exposures.filter(
                       (exposure) => exposure.type === "person"
-                    ).length}
-                  <div style={{width:30,textAlign:"center",display:"inline-block"}}>|</div>
-                  {<PlaceIcon style={{color:"black",...iconStyle}}></PlaceIcon>} {incident &&
-                    (incident.exposures.filter(
+                    ).length}{" "}
+                  <div
+                    className="subdued-text"
+                    style={{
+                      width: 30,
+                      textAlign: "center",
+                      display: "inline-block",
+                    }}
+                  >
+                    |
+                  </div>
+                  {
+                    <PlaceIcon
+                      style={{ color: "black", ...iconStyle }}
+                    ></PlaceIcon>
+                  }{" "}
+                  {incident &&
+                    incident.exposures.filter(
                       (exposure) => exposure.type === "room"
-                    ).length )}
-                  {/* {incident.exposures.map((exposure, length) => (
-                      <div className="exposure">
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} md={2}>
-                            <div className="label high-exposure">
-                              {exposure.level}
-                            </div>
-                          </Grid>
-                          <Grid item xs={12} md={2}>
-                            <div className="who">
-                              <div className="icon">
-                                {exposure.type === "person" ? (
-                                  <PersonIcon />
-                                ) : (
-                                  <></>
-                                )}
-                                {exposure.type === "room" ? (
-                                  <LocationOnIcon />
-                                ) : (
-                                  <></>
-                                )}
-                              </div>
-                              <div className="name-box">
-                                <div className="name blue">{exposure.name}</div>
-                                <div className="exposure-id blue">
-                                  {exposure.id ? `(${exposure.id})` : <></>}
-                                </div>
-                                <div className="exposure-heatmap-link blue">
-                                  {exposure.type === "room" ? (
-                                    `(See heatmap)`
-                                  ) : (
-                                    <></>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </Grid>
-                          <Grid item xs={12} md={8}>
-                            <div className="mitigations">
-                              {exposure &&
-                                exposure.mitigations.map(
-                                  (mitigation, index) => (
-                                    <>
-                                      <div className="mitigation">
-                                        <Grid container spacing={2}>
-                                          <Grid
-                                            item
-                                            xs={12}
-                                            md={8}
-                                            sx={{ display: "flex" }}
-                                          >
-                                            <FormControl
-                                              sx={{ padding: "11px" }}
-                                              fullWidth
-                                            >
-                                              <Select
-                                                id={`mitigation-${index}`}
-                                                value={mitigation}
-                                                onChange={() => {}}
-                                              >
-                                                <MenuItem
-                                                  value={`order-pathology-test`}
-                                                >
-                                                  Order pathology test
-                                                </MenuItem>
-                                                <MenuItem
-                                                  value={"self-isolate"}
-                                                >
-                                                  Move to isolation room
-                                                </MenuItem>
-                                                <MenuItem
-                                                  value={
-                                                    "request-cleaning-service"
-                                                  }
-                                                >
-                                                  Request cleaning service
-                                                </MenuItem>
-                                              </Select>
-                                            </FormControl>
-                                          </Grid>
-                                          <Grid
-                                            item
-                                            xs={12}
-                                            md={2}
-                                            sx={{ display: "flex" }}
-                                          >
-                                            {index ===
-                                            exposure.mitigations.length - 1 ? (
-                                              <Button
-                                                variant="text"
-                                                sx={{ color: "#4198D0" }}
-                                              >
-                                                Add more
-                                              </Button>
-                                            ) : (
-                                              <></>
-                                            )}
-                                          </Grid>
-                                          <Grid
-                                            item
-                                            xs={12}
-                                            md={2}
-                                            sx={{ display: "flex" }}
-                                          >
-                                            <FormControl
-                                              fullWidth
-                                              sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                alignContent: "center",
-                                                alignSelf: "center",
-                                              }}
-                                            >
-                                              <Select
-                                                id="mitigation-status-1"
-                                                className="mitigation-status"
-                                                value={"ongoing"}
-                                                onChange={() => {}}
-                                                sx={{
-                                                  borderRadius: "30px",
-                                                  color: "#4D6879",
-                                                  fontWeight: 600,
-                                                  fontSize: "14px",
-                                                }}
-                                              >
-                                                <MenuItem value={"ongoing"}>
-                                                  Ongoing
-                                                </MenuItem>
-                                                <MenuItem value={"resolved"}>
-                                                  Resolved
-                                                </MenuItem>
-                                              </Select>
-                                            </FormControl>
-                                          </Grid>
-                                        </Grid>
-                                      </div>
-                                    </>
-                                  )
-                                )}
-                            </div>
-                          </Grid>
-                        </Grid>
-                      </div>
-                    ))} */}
+                    ).length}
                 </div>
               </Grid>
               <Grid item xs={12} md={2.5}>
-                <a className="name blue see-contacts" href={`/case/${incident.id}/detail`}>
-                  See contacts & contaminations <KeyboardArrowRightIcon style={iconStyle}></KeyboardArrowRightIcon>
+                <a
+                  className="name blue see-contacts"
+                  href={`/case/${incident.incident_id}/detail`}
+                >
+                  See contacts & contaminations{" "}
+                  <KeyboardArrowRightIcon
+                    style={iconStyle}
+                  ></KeyboardArrowRightIcon>
                 </a>
               </Grid>
               <Grid item xs={12} md={1.5}>
-                <a className="printer name blue" href={`/case/${incident.id}/print`}>
-                <LocalPrintshopIcon style={iconStyle}></LocalPrintshopIcon>  Print 
+                <a
+                  className="printer name blue"
+                  href={`/case/${incident.id}/print`}
+                >
+                  <LocalPrintshopIcon style={iconStyle}></LocalPrintshopIcon>{" "}
+                  Print
                 </a>
               </Grid>
             </Grid>
           </div>
-
         </div>
       ))}
-
-      {/* <div style={{ height: 900, width: '100%' }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={100}
-              rowsPerPageOptions={[5, 10, 30, 50, 75, 100]}
-              checkboxSelection
-              initialState={{
-                sorting: {
-                  sortModel: [{field: 'severity', sort: 'desc'}]
-                }
-              }}
-            />
-          </div> */}
     </div>
   );
 }

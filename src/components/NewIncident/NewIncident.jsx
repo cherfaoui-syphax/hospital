@@ -20,22 +20,19 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import IncidentsListTab from "../IncidentsListTab/IncidentsListTab";
 import { DataGrid } from "@mui/x-data-grid";
 import { tabContentStyle, paddedPaper } from "../styles/styles";
-import dayjs, { Dayjs } from 'dayjs';
-
+import { useNavigate } from "react-router-dom";
+import dayjs, { Dayjs } from "dayjs";
+import { randomInt } from "d3";
 
 function NewIncident() {
-  const [fetchingMitigations, setFetchingMitigations] = useState(false);
+  const navigate = useNavigate();
+  const [savingIncident, setSavingIncident] = useState(false);
   const [mitigationsAvailable, setMitigationsAvailable] = useState(false);
   const [natureOfMitigations, setNatureOfMitigations] = useState([
     { label: "", value: "" },
     { label: "Room has been cleaned", value: "cleaned" },
     { label: "Patient has been moved to isolation", value: "isolation" },
   ]);
-  const [mitigationText, setMitigationText] = useState("");
-  const [mitigationInput1, setMitigationInput1] = useState("");
-  const [mitigationInput2, setMitigationInput2] = useState("");
-  const [mitigationInput3, setMitigationInput3] = useState("");
-  const [mitigationInput4, setMitigationInput4] = useState("");
   const [incidentText, setIncidentText] = useState("");
   const [incidentInput1, setIncidentInput1] = useState("");
   const [incidentInput2, setIncidentInput2] = useState("");
@@ -72,18 +69,23 @@ function NewIncident() {
     },
   ]);
 
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
   const fetchPathogens = async () => {
-    const resp = await fetch(`${process.env.REACT_APP_API_URL}//pathogens`);
+    const resp = await fetch(`${process.env.REACT_APP_API_URL}/pathogens`);
     const { data } = await resp.json();
     setPathogens(data);
   };
 
   const submitIncident = (evt) => {
     evt.preventDefault();
-    setFetchingMitigations(true);
+    setSavingIncident(true);
+    //addNewIncident();
     setTimeout(() => {
-      setMitigationsAvailable(true);
-      setFetchingMitigations(false);
+      setSavingIncident(false);
+      navigate("/cases");
     }, 1000);
   };
 
@@ -236,6 +238,73 @@ function NewIncident() {
     },
   ];
 
+  const addNewIncident = async () => {
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/newincident?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTYwMDk3MzUxMywiZXhwIjoxNjAxNTc4MzEzfQ.OymFrLMMYgFAnYpveZPTgJVg6shCMhducqmZ21oYzY8&ward=2`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Item: {
+            incident_id: randomInt(100),
+            id: `BE-FA-GHR${randomInt(100)}`,
+            index: {
+              name: incidentInput1,
+              id: randomInt(1000000),
+            },
+            pathogen: "C. difficile",
+            pathogenCategory: "Gastrointestinal infections",
+            date: "Thu, 16 March 2023, 15:25:35",
+            role: "Patient",
+            notes: ["fsfdsfsd", "fdsfds"],
+            exposures: [
+              {
+                level: "high",
+                name: "Desmond Hall",
+                id: 13,
+                mitigations: ["order-pathology-test", "self-isolate"],
+                date: "Thu, 16 March 2023, 15:25:35",
+                duration: 120000,
+                role: "Patient",
+                distance: 0.4,
+                type: "person",
+              },
+              {
+                level: "high",
+                name: "Ally Bisset",
+                id: 11,
+                mitigations: ["order-pathology-test", "self-isolate"],
+                date: "Mon, 9 April 2023, 15:28:00",
+                role: "Patient",
+                distance: 0.2,
+                duration: 180000,
+                type: "person",
+              },
+              {
+                level: "low",
+                name: "Surgical Room 2",
+                mitigations: ["request-cleaning-service"],
+                date: "Mon, 9 April 2023, 15:29:00",
+                duration: 180000,
+                role: "Room",
+                distance: 0.5,
+                type: "room",
+              },
+            ],
+          },
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setSavingIncident(false);
+        navigate("/cases");
+      })
+      .catch((error) => console.error(error));
+  };
+
   const onChangeIncidentText = (evt) => {
     setIncidentText(evt.target.value);
   };
@@ -247,22 +316,32 @@ function NewIncident() {
   });
 
   return (
-    <div id="new-incident-page" style={{paddingTop:"clamp(100px,10vh,300px"}}>
-      <Paper style={{ ...tabContentStyle, ...paddedPaper }}>
+    <>
+      <div
+        id="new-incident-page"
+        className="box-shadow box-shadow-white padded"
+        style={{
+          margin: "130px 40px 40px 40px",
+          paddingTop: "clamp(100px,10vh,300px",
+        }}
+      >
         <form
           onSubmit={(evt) => submitIncident(evt)}
           style={{ color: "#526878" }}
         >
           <Grid container>
             <Grid container>
-              <Grid
+              {/* <Grid
                 xs={2}
                 style={{
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold", color: "#526878" }}>
+                <div
+                  className="subdued-text capitalized"
+                  style={{ color: "#526878" }}
+                >
                   Incident ID
                 </div>
               </Grid>
@@ -272,7 +351,7 @@ function NewIncident() {
                 >
                   QE-BA-DAR1
                 </div>
-              </Grid>
+              </Grid> */}
             </Grid>
 
             <Grid container>
@@ -283,7 +362,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Date</div>
+                <div className="subdued-text capitalized">Date</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
@@ -313,12 +392,12 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Full Name</div>
+                <div className="subdued-text capitalized">Full Name</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
                   <InputLabel id="demo-simple-select-label">
-                    Select patient of staff
+                    Select patient or staff
                   </InputLabel>
                   <Select
                     required
@@ -348,7 +427,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Pathogen</div>
+                <div className="subdued-text capitalized">Pathogen</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
@@ -391,7 +470,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Diagnosis</div>
+                <div className="subdued-text capitalized">Diagnosis</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl
@@ -456,7 +535,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Infection site</div>
+                <div className="subdued-text capitalized">Infection site</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
@@ -489,7 +568,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Mitigation</div>
+                <div className="subdued-text capitalized">Mitigation</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
@@ -522,7 +601,7 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ fontWeight: "bold" }}>Details</div>
+                <div className="subdued-text capitalized">Details</div>
               </Grid>
               <Grid xs={5}>
                 <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
@@ -557,115 +636,31 @@ function NewIncident() {
             </div>
           )}
 
-          {/* 
-            <div style={{ color: '#000000', fontWeight: 'bold', fontSize: '16px' }}>Enter mitigation</div>
-            <FormControl
-                style={{ 'margin': '10px 10px 10px 0px' }}
-                fullWidth>
-                <InputLabel id="demo-simple-select-label">Input 1</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mitigationInput1}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                        setMitigationInput1(evt.target.value);
-                    } }
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              margin: "1rem 0",
+            }}
+          >
+            <FormControl>
+              {savingIncident ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  style={{ fontWeight: "bold" }}
+                  onClick={submitIncident}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl><FormControl
-                style={{ 'margin': '10px 10px 10px 0px' }}
-                fullWidth>            <InputLabel id="demo-simple-select-label">Input 2</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mitigationInput2}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                        setMitigationInput2(evt.target.value);
-                    } }
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl><FormControl
-                style={{ 'margin': '10px 10px 10px 0px' }}
-                fullWidth>            <InputLabel id="demo-simple-select-label">Input 3</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mitigationInput3}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                        setMitigationInput3(evt.target.value);
-                    } }
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl><FormControl
-                style={{ 'margin': '10px 10px 10px 0px' }}
-                fullWidth>            <InputLabel id="demo-simple-select-label">Input 4</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={mitigationInput4}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                        setMitigationInput4(evt.target.value);
-                    } }
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl><FormControl
-                style={{ 'margin': '10px 10px 10px 0px' }}
-                fullWidth>
-                <TextField
-                    id="mitigation-details"
-                    label="Details"
-                    multiline
-                    rows={4}
-                    value={mitigationText}
-                    onChange={onChangeMitigationText} />
-            </FormControl> */}
+                  Save
+                </Button>
+              )}
+            </FormControl>
+          </div>
         </form>
-      </Paper>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          margin: "1rem 0",
-        }}
-      >
-        <Button
-          variant="outlined"
-          style={{ marginRight: "1rem", padding: "0 1rem", fontWeight: "bold" }}
-        >
-          Cancel
-        </Button>
-        <FormControl>
-          {!fetchingMitigations && (
-            <Button
-              type="submit"
-              variant="contained"
-              disabled
-              style={{ fontWeight: "bold" }}
-            >
-              Show Consequences
-            </Button>
-          )}
-          {fetchingMitigations && <CircularProgress />}
-        </FormControl>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -68,7 +68,7 @@ const Sidebar = ({
         setIsOpen={setIsPathogenOpen}
       > */}
       <div className="select-all-pathogens">
-        <div className="subdued-text">Select all pathogens</div>
+        <div class="subdued-text">Select all pathogens</div>
         <Switch
           onChange={(evt) => handleSelectAllPathogensToggle(evt)}
           checked={selectAllPathogensToggle}
