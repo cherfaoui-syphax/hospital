@@ -12,23 +12,24 @@ const columnStyle={
 
 const dummyData = {
     cases : {
-        percentage : 20 , 
-        nominal : 30 , 
-        number : 20
+        percentage_change : 0 , 
+        nominal_change : 0 , 
+        number : 0
     },
     contacts : {
-        percentage : 20 , 
-        nominal : -30 , 
-        number : 15
+        percentage_change : 0 , 
+        nominal_change : 0 , 
+        number : 0
     },
     contaminations : {
-        percentage : 0 , 
-        nominal : 0 , 
-        number : 20
+        percentage_change : 0 , 
+        nominal_change : 0 , 
+        number : 0
     }
 }
 
-const response = dummyData;
+
+
 
 const PercentageChange = (props) =>{
     if(props.nominal > 0){
@@ -43,24 +44,36 @@ const PercentageChange = (props) =>{
 }
 
 function Overview() {
+    const [overview,setOverview] = useState(dummyData); 
 
-  
+    const fetchData = async () => {
+        const resp = await fetch(`${process.env.REACT_APP_API_URL}/overview_evolution?token=aabbcc`);
+        const { data } = await resp.json();
+        console.log(data)
+        setOverview(data);
+      };
+    React.useEffect(() => {
+    if (dummyData == overview) {
+        fetchData();
+    }
+    });
+
     return (<>
         <Grid container className=" incident-box  rounded-sm with-margins padded box-shadow" style={{backgroundColor:"white"}} >
             <Grid itex xs={12} md={4} style={columnStyle}>
                 <h2>Cases</h2>
-                <h1>{response.cases.number}</h1>
-                <PercentageChange percentage={response.cases.percentage} nominal={response.cases.nominal}></PercentageChange>
+                <h1>{overview.cases.number}</h1>
+                <PercentageChange percentage={overview.cases.percentage_change} nominal={overview.cases.nominal_change}></PercentageChange>
             </Grid>
             <Grid itex xs={12} md={4} style={columnStyle}  >
                 <h2>Contacts</h2>
-                <h1>{response.contacts.number}</h1>
-                <PercentageChange percentage={response.contacts.percentage} nominal={response.contacts.nominal}></PercentageChange>
+                <h1>{overview.contacts.number}</h1>
+                <PercentageChange percentage={overview.contacts.percentage_change} nominal={overview.contacts.nominal_change}></PercentageChange>
             </Grid>
             <Grid itex xs={12} md={4}  style={{padding:20, paddingTop:10}} >
                 <h2>Contaminations</h2>
-                <h1>{response.contaminations.number}</h1>
-                <PercentageChange percentage={response.contaminations.percentage} nominal={response.contaminations.nominal}></PercentageChange>
+                <h1>{overview.contaminations.number}</h1>
+                <PercentageChange percentage={overview.contaminations.percentage_change} nominal={overview.contaminations.nominal_change}></PercentageChange>
             </Grid>
 
         </Grid>

@@ -41,7 +41,7 @@ function NewIncident() {
   const [inputRole, setInputRole] = useState("");
   const [inputPathogenCategory, setInputPathogenCategory] = useState();
   const [inputPathogen, setInputPathogen] = useState();
-  const [status, setStatus] = React.useState();
+  const [status, setStatus] = React.useState("Confirmed");
   const [details, setDetails] = useState("");
 
 
@@ -85,18 +85,17 @@ function NewIncident() {
   const fetchPathogens = async () => {
     const resp = await fetch(`${process.env.REACT_APP_API_URL}/pathogens`);
     const { data } = await resp.json();
+
     setPathogens(data);
   };
   const fetchCategories = async () => {
-    const data = [{id:1 , name: 'category 1'}, {id:2 , name: 'category 2'}, {id:3 , name: 'category 3'}]
+    const resp = await fetch(`${process.env.REACT_APP_API_URL}/pathogen_categories?token=aabbcc`);
+    const { data } = await resp.json();
     setPathogenCategories(data);
   };
   const fetchRoles = async () => {
-    const data = [
-        { role_id: 1 , role_name :  "Surgeon" },
-        { role_id: 2 , role_name :  "Nurse" },
-        { role_id: 3 , role_name :  "Janitor" }
-      ];
+    const resp = await fetch(`${process.env.REACT_APP_API_URL}/roles?token=aabbcc`);
+    const { data } = await resp.json();
     setRoles(data);
   };
 
@@ -334,8 +333,8 @@ function NewIncident() {
                     {pathogenCategories ? (
                       pathogenCategories.map((pathogenCat, index) =>
                         pathogenCat ? (
-                          <MenuItem value={pathogenCat.id}>
-                            {pathogenCat.name}
+                          <MenuItem value={pathogenCat.category_id}>
+                            {pathogenCat.category_name}
                           </MenuItem>
                         ) : (
                           <></>
