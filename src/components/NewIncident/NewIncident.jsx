@@ -11,6 +11,8 @@ import {
   Button,
   CircularProgress,
   Checkbox,
+  RadioGroup,
+  Radio,
   FormControlLabel,
 } from "@mui/material";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -33,12 +35,19 @@ function NewIncident() {
     { label: "Room has been cleaned", value: "cleaned" },
     { label: "Patient has been moved to isolation", value: "isolation" },
   ]);
-  const [incidentText, setIncidentText] = useState("");
-  const [incidentInput1, setIncidentInput1] = useState("");
-  const [incidentInput2, setIncidentInput2] = useState("");
-  const [incidentInput3, setIncidentInput3] = useState();
-  const [incidentInput4, setIncidentInput4] = React.useState(dayjs());
+
+  const [date, setDate] = React.useState(dayjs());
+  const [fullName, setFullName] = useState("");
+  const [inputRole, setInputRole] = useState("");
+  const [inputPathogenCategory, setInputPathogenCategory] = useState();
+  const [inputPathogen, setInputPathogen] = useState();
+  const [status, setStatus] = React.useState();
+  const [details, setDetails] = useState("");
+
+
   const [pathogens, setPathogens] = useState();
+  const [pathogenCategories, setPathogenCategories] = useState();
+  const [roles, setRoles] = useState();
   const [dummyRows, setDummyRows] = useState([
     {
       id: 0,
@@ -78,167 +87,34 @@ function NewIncident() {
     const { data } = await resp.json();
     setPathogens(data);
   };
+  const fetchCategories = async () => {
+    const data = [{id:1 , name: 'category 1'}, {id:2 , name: 'category 2'}, {id:3 , name: 'category 3'}]
+    setPathogenCategories(data);
+  };
+  const fetchRoles = async () => {
+    const data = [
+        { role_id: 1 , role_name :  "Surgeon" },
+        { role_id: 2 , role_name :  "Nurse" },
+        { role_id: 3 , role_name :  "Janitor" }
+      ];
+    setRoles(data);
+  };
 
   const submitIncident = (evt) => {
     evt.preventDefault();
     setSavingIncident(true);
-    //addNewIncident();
+    addNewIncident();
     setTimeout(() => {
       setSavingIncident(false);
-      navigate("/cases");
+      //navigate("/cases");
     }, 1000);
   };
 
-  const getCellVal = (props, field) => {
-    let returnVal = null;
-    dummyRows.map((row) => {
-      if (row.id === props.id) {
-        returnVal = row[field];
-      }
 
-      return row;
-    });
-    return returnVal;
-  };
 
-  const changeCellVal = (props, newValue, field) => {
-    let newRows = [];
-    dummyRows.map((row, index) => {
-      if (row.id === props.id) {
-        let updatedRow = { ...row, [field]: newValue };
-        if (field === "mitigationDate") {
-          updatedRow.notMitigated = false;
-        }
-        if (field === "notMitigated" && newValue === true) {
-          // this mens the event has not been mitigated
-          updatedRow.mitigationDate = null;
-        }
-        if (field === "notMitigated" && newValue === false) {
-          updatedRow.mitigationDate = new Date();
-        }
-        newRows.push(updatedRow);
-      } else {
-        newRows.push(row);
-      }
-      return row;
-    });
-    setDummyRows(newRows);
-  };
-
-  const columns = [
-    { field: "description", headerName: "Description", width: 350 },
-    {
-      field: "natureOfMitigation",
-      headerName: "Nature of Mitigation",
-      width: 350,
-      renderCell: (props) => {
-        return (
-          <>
-            <Select
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                margin: "12px 0px",
-                height: "35px",
-                width: "330px",
-                borderWidth: "0px",
-                outline: "0px",
-              }}
-              displayEmpty
-              className="nature-of-mitigation-field"
-              // labelId={`nature-of-mitigation-label-${props.id}`}
-              id={`nature-of-mitigation-${props.id}`}
-              value={getCellVal(props, "natureOfMitigation")}
-              onChange={(evt) =>
-                changeCellVal(props, evt.target.value, "natureOfMitigation")
-              }
-            >
-              {natureOfMitigations.map((mitigationNature, index) => (
-                <MenuItem value={mitigationNature.value}>
-                  {mitigationNature.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </>
-        );
-      },
-    },
-    { field: "severity", headerName: "Severity", width: 100 },
-    {
-      field: "mitigationDate",
-      headerName: "Mitigation date",
-      flex: 1,
-      renderCell: (props) => {
-        return (
-          <>
-            <DateTimePicker
-              inputFormat="DD/MM/YYYY hh:mm a"
-              value={getCellVal(props, "mitigationDate")}
-              onChange={(newValue) =>
-                changeCellVal(props, newValue, "mitigationDate")
-              }
-              renderInput={(params) => {
-                return (
-                  <TextField
-                    {...params}
-                    class="date-field"
-                    inputProps={{
-                      ...params.inputProps,
-                      placeholder: "Date",
-                    }}
-                    style={{
-                      borderWidth: "0px",
-                    }}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                );
-              }}
-            />
-          </>
-        );
-      },
-    },
-    {
-      field: "notMitigated",
-      headerName: "Mitigation",
-      flex: 1,
-      renderCell: (props) => {
-        return (
-          <FormControlLabel
-            label="Not mitigated"
-            control={
-              <Checkbox
-                checked={getCellVal(props, "notMitigated")}
-                onChange={(evt) =>
-                  changeCellVal(props, evt.target.checked, "notMitigated")
-                }
-              />
-            }
-          />
-        );
-      },
-    },
-    {
-      field: "details",
-      headerName: "Details",
-      flex: 1,
-      renderCell: (props) => {
-        return (
-          <TextField
-            fullWidth
-            InputProps={{ style: { height: "30px" } }}
-            value={getCellVal(props, "details")}
-            onChange={(evt) =>
-              changeCellVal(props, evt.target.value, "details")
-            }
-            placeholder="Additional details"
-          />
-        );
-      },
-    },
-  ];
 
   const addNewIncident = async () => {
+    const rand_id = getRandomInt(100);
     await fetch(
       `${process.env.REACT_APP_API_URL}/newincident?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTYwMDk3MzUxMywiZXhwIjoxNjAxNTc4MzEzfQ.OymFrLMMYgFAnYpveZPTgJVg6shCMhducqmZ21oYzY8&ward=2`,
       {
@@ -248,52 +124,18 @@ function NewIncident() {
         },
         body: JSON.stringify({
           Item: {
-            incident_id: randomInt(100),
-            id: `BE-FA-GHR${randomInt(100)}`,
+            id: `BE-FA-GHR-${rand_id}`,
             index: {
-              name: incidentInput1,
-              id: randomInt(1000000),
+              name: fullName,
+              id: getRandomInt(1000000),
             },
-            pathogen: "C. difficile",
-            pathogenCategory: "Gastrointestinal infections",
-            date: "Thu, 16 March 2023, 15:25:35",
-            role: "Patient",
-            notes: ["fsfdsfsd", "fdsfds"],
-            exposures: [
-              {
-                level: "high",
-                name: "Desmond Hall",
-                id: 13,
-                mitigations: ["order-pathology-test", "self-isolate"],
-                date: "Thu, 16 March 2023, 15:25:35",
-                duration: 120000,
-                role: "Patient",
-                distance: 0.4,
-                type: "person",
-              },
-              {
-                level: "high",
-                name: "Ally Bisset",
-                id: 11,
-                mitigations: ["order-pathology-test", "self-isolate"],
-                date: "Mon, 9 April 2023, 15:28:00",
-                role: "Patient",
-                distance: 0.2,
-                duration: 180000,
-                type: "person",
-              },
-              {
-                level: "low",
-                name: "Surgical Room 2",
-                mitigations: ["request-cleaning-service"],
-                date: "Mon, 9 April 2023, 15:29:00",
-                duration: 180000,
-                role: "Room",
-                distance: 0.5,
-                type: "room",
-              },
-            ],
-          },
+            pathogen: inputPathogen,
+            pathogenCategory: inputPathogenCategory,
+            status:status,
+            date: date.toDate(),
+            role: inputRole,
+            notes: details.split("\n"),}
+          
         }),
       }
     )
@@ -305,13 +147,17 @@ function NewIncident() {
       .catch((error) => console.error(error));
   };
 
-  const onChangeIncidentText = (evt) => {
-    setIncidentText(evt.target.value);
-  };
+;
 
   React.useEffect(() => {
     if (!pathogens) {
       fetchPathogens();
+    }
+    if (!pathogenCategories){
+      fetchCategories();
+    }
+    if (!pathogenCategories){
+      fetchRoles();
     }
   });
 
@@ -369,8 +215,8 @@ function NewIncident() {
                   <DateTimePicker
                     label="Date"
                     inputFormat="D MMM, YYYY hh:mm a"
-                    value={incidentInput4}
-                    onChange={(newValue) => setIncidentInput4(newValue)}
+                    value={date}
+                    onChange={(event) => setDate(event.target.value)}
                     renderInput={(params) => {
                       return (
                         <TextField
@@ -403,10 +249,10 @@ function NewIncident() {
                     required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={incidentInput1}
+                    value={fullName}
                     label="Placeholder"
                     onChange={(evt) => {
-                      setIncidentInput1(evt.target.value);
+                      setFullName(evt.target.value);
                     }}
                   >
                     {Object.keys(dummyMetadata).map((marker, index) => (
@@ -418,6 +264,92 @@ function NewIncident() {
                 </FormControl>
               </Grid>
             </Grid>
+            <Grid container>
+              <Grid
+                xs={2}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div className="subdued-text capitalized">Role</div>
+              </Grid>
+              <Grid xs={5}>
+                <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Select occupied role
+                  </InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={inputRole}
+                    label="Placeholder"
+                    onChange={(evt) => {
+                      setInputRole(evt.target.value);
+                    }}
+                  >
+                    {roles ? (
+                      roles.map((role, index) =>
+                      role ? (
+                          <MenuItem value={role.role_id}>
+                            {role.role_name}
+                          </MenuItem>
+                        ) : (
+                          <></>
+                        )
+                      )
+                    ) : (
+                      <></>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid
+                xs={2}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div className="subdued-text capitalized">Pathogen category</div>
+              </Grid>
+              <Grid xs={5}>
+                <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Select pathogen category
+                  </InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={inputPathogenCategory}
+                    label="Placeholder"
+                    onChange={(evt) => {
+                      setInputPathogenCategory(evt.target.value);
+                    }}
+                  >
+                    {pathogenCategories ? (
+                      pathogenCategories.map((pathogenCat, index) =>
+                        pathogenCat ? (
+                          <MenuItem value={pathogenCat.id}>
+                            {pathogenCat.name}
+                          </MenuItem>
+                        ) : (
+                          <></>
+                        )
+                      )
+                    ) : (
+                      <></>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+
+
 
             <Grid container>
               <Grid
@@ -438,10 +370,10 @@ function NewIncident() {
                     required
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={incidentInput2}
+                    value={inputPathogen}
                     label="Placeholder"
                     onChange={(evt) => {
-                      setIncidentInput2(evt.target.value);
+                      setInputPathogen(evt.target.value);
                     }}
                   >
                     {pathogens ? (
@@ -470,128 +402,44 @@ function NewIncident() {
                   alignItems: "center",
                 }}
               >
-                <div className="subdued-text capitalized">Diagnosis</div>
+                <div className="subdued-text capitalized">Status</div>
               </Grid>
               <Grid xs={5}>
+                
                 <FormControl
                   style={{
                     margin: "10px 10px 10px 0px",
-                    display: "flex",
-                    flexDirection: "row",
+
                   }}
-                  fullWidth
                 >
-                  <Paper
-                    variant="outlined"
-                    style={{ padding: "0 1rem", marginRight: "1rem" }}
+                  <RadioGroup
+                    value={status}
+                    onChange={(event) => setStatus(event.target.value)}
+                    row
                   >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon />}
-                        />
-                      }
-                      label="Confirmed"
-                    />
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    style={{ padding: "0 1rem", marginRight: "1rem" }}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon />}
-                        />
-                      }
-                      label="Unconfirmed"
-                    />
-                  </Paper>
-                  <Paper
-                    variant="outlined"
-                    style={{ padding: "0 1rem", marginRight: "1rem" }}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon />}
-                        />
-                      }
-                      label="Unknown"
-                    />
-                  </Paper>
+                    <Paper
+                      variant="outlined"
+                      style={{ padding: "0 1rem", marginRight: "1rem" }}
+                    >
+                      <FormControlLabel value={"Confirmed"} control={<Radio/>} label="Confirmed"/>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      style={{ padding: "0 1rem", marginRight: "1rem" }}
+                    >
+                      <FormControlLabel value={"Unconfirmed"} control={<Radio/>} label="Unconfirmed"/>
+                    </Paper>
+                    <Paper
+                      variant="outlined"
+                      style={{ padding: "0 1rem", marginRight: "1rem" }}
+                    >
+                      <FormControlLabel value={"Unknown"} control={<Radio/>} label="Unknown"/>
+                    </Paper>
+                  </RadioGroup>
                 </FormControl>
               </Grid>
             </Grid>
 
-            <Grid container>
-              <Grid
-                xs={2}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <div className="subdued-text capitalized">Infection site</div>
-              </Grid>
-              <Grid xs={5}>
-                <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Select infection site
-                  </InputLabel>
-                  <Select
-                    required
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={incidentInput3}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                      setIncidentInput3(evt.target.value);
-                    }}
-                  >
-                    <MenuItem value={1}>Example 1</MenuItem>
-                    <MenuItem value={2}>Example 2</MenuItem>
-                    <MenuItem value={3}>Example 3</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-
-            <Grid container>
-              <Grid
-                xs={2}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <div className="subdued-text capitalized">Mitigation</div>
-              </Grid>
-              <Grid xs={5}>
-                <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    Select mitigation
-                  </InputLabel>
-                  <Select
-                    required
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={incidentInput3}
-                    label="Placeholder"
-                    onChange={(evt) => {
-                      setIncidentInput3(evt.target.value);
-                    }}
-                  >
-                    <MenuItem value={1}>Example 1</MenuItem>
-                    <MenuItem value={2}>Example 2</MenuItem>
-                    <MenuItem value={3}>Example 3</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
 
             <Grid container>
               <Grid
@@ -610,31 +458,15 @@ function NewIncident() {
                     label="Add notes here"
                     multiline
                     rows={6}
-                    value={incidentText}
-                    onChange={onChangeIncidentText}
+                    value={details}
+                    onChange={(event) => {setDetails(event.target.value)}}
                   />
                 </FormControl>
               </Grid>
             </Grid>
           </Grid>
 
-          {mitigationsAvailable && (
-            <div
-              style={{
-                height: `${50 * dummyRows.length + 120}px`,
-                width: "100%",
-                marginTop: "50px",
-              }}
-            >
-              <DataGrid
-                rows={dummyRows}
-                columns={columns}
-                pageSize={100}
-                rowsPerPageOptions={[5, 10, 30, 50, 75, 100]}
-                checkboxSelection
-              />
-            </div>
-          )}
+
 
           <div
             style={{
