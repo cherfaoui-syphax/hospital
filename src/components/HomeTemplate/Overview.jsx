@@ -44,13 +44,20 @@ const PercentageChange = (props) =>{
 }
 
 function Overview() {
+
     const [overview,setOverview] = useState(dummyData); 
+    console.log(overview);
 
     const fetchData = async () => {
-        const resp = await fetch(`${process.env.REACT_APP_API_URL}/overview_evolution?token=aabbcc`);
-        const { data } = await resp.json();
-        console.log(data)
-        setOverview(data);
+        const resp = await fetch(`${process.env.REACT_APP_API_URL}/overview_evolution?token=aabbcc`)
+        .then(resp => {
+            const { data } =  resp.json();
+            console.log(data)
+            if(data){
+                setOverview(data);
+            }
+        } );
+
       };
     React.useEffect(() => {
     if (dummyData == overview) {

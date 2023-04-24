@@ -9,8 +9,9 @@ import { tabContentStyle } from "../styles/styles";
 import UnreadNotifications from "../UnreadNotifications/UnreadNotifications";
 import ConfirmedCasesTopPathogens from "../ConfirmedCasesTopPathogens/ConfirmedCasesTopPathogens";
 import IncidentsOverview from "../IncidentsOverview/IncidentsOverview";
-import LastFiveCases from "./LastFiveCases";
 import Overview from "./Overview";
+import LastFiveCases from "./LastFiveCases";
+
 function HomeTemplate() {
   const [showMap, setShowMap] = useState(true);
 
@@ -35,10 +36,10 @@ function HomeTemplate() {
         Overview
       </Typography>
 
-      <Overview></Overview>
+      <Overview/>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6} sx={{ height: "inherit" }}>
+        <Grid item xs={12} md={6} sx={{ height: "100%" }}>
           <Typography
             sx={{ margin: "48px 0px 25px", fontSize: "20px", fontWeight: 700 }}
             color="primary"
@@ -47,9 +48,11 @@ function HomeTemplate() {
           >
             Incidents Overview
           </Typography>
+          <Paper style={tabContentStyle}>
             <LastFiveCases />
+          </Paper>
         </Grid>
-        <Grid item xs={12} md={6} sx={{ height: "fit-content" }}>
+        <Grid item xs={12} md={6} sx={{ height: "100%" }}>
           <Typography
             sx={{ margin: "48px 0px 25px", fontSize: "20px", fontWeight: 700 }}
             color="primary"
