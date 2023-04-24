@@ -27,7 +27,7 @@ export default function LastFiveCases() {
         <div className="incident-box" >
           <div
             className="incident-content rounded-sm with-margins padded box-shadow"
-            style={{marginTop:0 , marginBottom : 0 , backgroundColor: "#fff" }}
+            style={{margin:0  , backgroundColor: "#fff" }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} md={3}>
@@ -43,12 +43,12 @@ export default function LastFiveCases() {
               </Grid>
               <Grid item xs={12} md={3}>
                 <div className="exposures">
-                {<PersonIcon style={{color:"black" , ...iconStyle}} > </PersonIcon>} {incident &&
+                {<PersonIcon style={{color:"black" , ...iconStyle}} > </PersonIcon>} {incident && incident.exposures &&
                     incident.exposures.filter(
                       (exposure) => exposure.type === "person"
                     ).length}
                   <div style={{width:30,textAlign:"center",display:"inline-block"}}>|</div>
-                  {<PlaceIcon style={{color:"black",...iconStyle}}></PlaceIcon>} {incident &&
+                  {<PlaceIcon style={{color:"black",...iconStyle}}></PlaceIcon>} {incident && incident.exposures &&
                     (incident.exposures.filter(
                       (exposure) => exposure.type === "room"
                     ).length )}
