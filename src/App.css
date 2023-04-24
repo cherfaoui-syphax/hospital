@@ -787,3 +787,16 @@ body .close-button svg {
 #new-incident-page .MuiGrid-root.MuiGrid-container {
   margin-top: 20px;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.contacts-contaminations {
+  border-bottom: 1px solid #9c9c9c95
+}
+.thin-header{
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

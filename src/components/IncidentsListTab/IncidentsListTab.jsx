@@ -28,7 +28,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { nodeWrapper, nodeName, iconStyle } from "./styles";
 import PlaceIcon from "@mui/icons-material/Place";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import LocalPrintshopIcon from "@mui/icons-material/LocalPrintshop";
+import LocalPrintshopIcon from "./PrinterLogo";
 
 function MapTab() {
   const [rows, setRows] = React.useState([]);
@@ -260,7 +260,7 @@ function MapTab() {
             </div>
             <input
               type="text"
-              placeholder="Search for keywords"
+              placeholder="Search patient name or comment"
               style={{
                 outline: "none",
                 height: "100%",
@@ -285,106 +285,38 @@ function MapTab() {
           </div>
         </Grid>
       </Grid>
-      <div className="capitalized incident-content rounded-sm with-margins padded subdued-text">
-        <Grid container spacing={2}>
+      <div 
+        className="capitalized incident-content rounded-sm with-margins padded subdued-text thin-header"
+      >
+        <Grid container spacing={2} xs = {10} md = {10}>
           <Grid item xs={12} md={2}>
             Date
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={3}>
             Name
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={1}>
             Role
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={1}>
             Pathogen
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={5}>
             Contacts | contaminations
           </Grid>
         </Grid>
       </div>
       {data?.map((incident, index) => (
-        <div className="incident-box">
-          {/* <div className="incident-title">
-            <div className="incident-title-text">
-              Incident ID: {incident.id}
-            </div>
-            <Button
-              sx={{ ...infoButtonStyle, ...buttonStyle }}
-              variant="contained"
-              color="info"
-              onClick={() => setIsTransmissionModalOpen(true)}
-            >
-              See transmission chain
-            </Button>
-            <Modal
-              open={isTransmissionModalOpen}
-              onClose={() => {
-                setIsTransmissionModalOpen(false);
-              }}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box style={modalStyle}>
-                <Box style={modalHeaderBoxStyle}>
-                  <span style={{ fontWeight: "bold" }}>
-                    QE-BA-DAR1: Jane Smith (111 123 1234)
-                  </span>
-                  <button
-                    onClick={() => {
-                      setIsTransmissionModalOpen(false);
-                    }}
-                    style={modalCloseButtonStyle}
-                  >
-                    Close
-                  </button>
-                </Box>
-                <Box style={modalContent}>
-                  <Box style={modalLeftStyle}>
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                    >
-                      C.difficile Tree
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      Created Sun, 24 July 2022, 5:06p.m
-                    </Typography>
-                  </Box>
-                  <Box style={modalRightStyle}>
-                    <Tree
-                      data={orgChart}
-                      pathFunc={"step"}
-                      depthFactor={300}
-                      translate={{ x: 166, y: 223 }}
-                      // orientation='vertical'
-                      zoom={1}
-                      renderCustomNodeElement={(rd3tProps) =>
-                        renderForeignObjectNode({
-                          ...rd3tProps,
-                          foreignObjectProps,
-                        })
-                      }
-                    />
-                  </Box>
-                </Box>
-
-                <Box style={modalFooter}>
-                  <button style={modalConsequences}>See consequences</button>
-                </Box>
-              </Box>
-            </Modal>
-          </div> */}
-
+        <Grid container>
+          <Grid item xs={10} md={10}>
+          <div className="incident-box">
           <div className="incident-content rounded-sm with-margins padded box-shadow box-shadow-white">
             <Grid container spacing={2}>
               <Grid item xs={12} md={2}>
-                <div className="date">{incident.date}</div>
+                <div className="date">{new Date(incident.date).toLocaleDateString("en-US")}</div>
               </Grid>
-              <Grid item xs={12} md={2}>
-                <div className="name blue">
+              <Grid item xs={12} md={3}>
+                <div className="name blue bold">
                   {incident.index.name}
                   <br />
                   {incident.index.id ? `(${incident.index.id})` : ""}
@@ -430,9 +362,9 @@ function MapTab() {
                     ).length}
                 </div>
               </Grid>
-              <Grid item xs={12} md={2.5}>
+              <Grid item xs={12} md={3}>
                 <a
-                  className="name blue see-contacts"
+                  className="name blue see-contacts bold"
                   href={`/case/${incident.incident_id}/detail`}
                 >
                   See contacts & contaminations{" "}
@@ -441,18 +373,25 @@ function MapTab() {
                   ></KeyboardArrowRightIcon>
                 </a>
               </Grid>
-              <Grid item xs={12} md={1.5}>
-                <a
-                  className="printer name blue"
-                  href={`/case/${incident.id}/print`}
-                >
-                  <LocalPrintshopIcon style={iconStyle}></LocalPrintshopIcon>{" "}
-                  Print
-                </a>
-              </Grid>
             </Grid>
           </div>
         </div>
+          </Grid>
+          <Grid item xs={2} md={2}>
+          <div className="incident-box">
+          <div className="incident-content rounded-sm with-margins padded ">
+            <a
+                  className="printer name blue bold"
+                  href={`/case/${incident.id}/print`}
+                >
+                  <LocalPrintshopIcon style={{...iconStyle,  width:"1.5em" , height:"1.5em"}}></LocalPrintshopIcon>{" "}
+                  Print
+            </a>
+            </div></div>
+          </Grid>
+        </Grid>
+
+
       ))}
     </div>
   );

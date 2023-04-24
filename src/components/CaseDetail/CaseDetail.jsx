@@ -25,6 +25,10 @@ import FloorplanSvg from "../FloorplanSvg/FloorplanSvg";
 import CloseIcon from "@mui/icons-material/Close";
 import { color } from "../MapTab/diseaseColor";
 import moment from "moment";
+import PlaceIcon from "@mui/icons-material/Place";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import PersonIcon2 from "@mui/icons-material/Person";
+
 
 function CaseDetail(props) {
   const [rows, setRows] = React.useState([]);
@@ -64,6 +68,11 @@ function CaseDetail(props) {
     // replayDataIteration.current = timeMarker / 1000;
     setCurrentAnimationProgress((timeMarker / eventAnimationDuration) * 100);
     setSeekTime(timeMarker);
+  };
+
+  const iconStyle = {
+    marginBottom: "-6px",
+  
   };
 
   const handleSeek = (evt) => {
@@ -542,115 +551,161 @@ function CaseDetail(props) {
             }}
           >
             <h2>Index Case</h2>
-            <div
-              className="subdued-text capitalized incident-content rounded-sm with-margins padded"
-              style={{ marginLeft: "20px" }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={2}>
-                  Date Created
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Full name
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Pathogen
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Infection site
-                </Grid>
-              </Grid>
-            </div>
+
             <div className="incident-box">
               <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
+                <div
+                    className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
+                    style={{ marginLeft: "20px" }}
+                >
                 <Grid container spacing={2}>
-                  <Grid item xs={12} md={2}>
-                    <div className="date">{data.date}</div>
+                  <Grid item xs={12} md={3}>
+                    Date And Time Created
                   </Grid>
                   <Grid item xs={12} md={2}>
-                    <div className="name blue">
-                      {data.index.name} <br /> ({data.index.id})
-                    </div>
+                    Full name
                   </Grid>
                   <Grid item xs={12} md={2}>
-                    <div className="role">{data.pathogen}</div>
+                    Pathogen
                   </Grid>
                   <Grid item xs={12} md={2}>
-                    <div className="pathogen">{data.pathogenCategory}</div>
+                    Infection site
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    Contacts | contaminations
                   </Grid>
                 </Grid>
               </div>
+              <div className="incident-box">
+                <div className="incident-content rounded-sm padded with-margins   thin-header ">
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={3}>
+                      <div className="date">{data.date}</div>
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      <div className="name blue bold">
+                        {data.index.name} <br /> ({data.index.id})
+                      </div>
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      <div className="role">{data.pathogen}</div>
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      <div className="pathogen">{data.pathogenCategory}</div>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                <div className="exposures">
+                  {
+                    <PersonIcon2 style={{ color: "black", ...iconStyle }}>
+                      {" "}
+                    </PersonIcon2>
+                  }
+                  {data &&
+                    data.exposures &&
+                    data.exposures.filter(
+                      (exposure) => exposure.type === "person"
+                    ).length}{" "}
+                  <div
+                    className="subdued-text"
+                    style={{
+                      width: 30,
+                      textAlign: "center",
+                      display: "inline-block",
+                    }}
+                  >
+                    |
+                  </div>
+                  {
+                    <PlaceIcon
+                      style={{ color: "black", ...iconStyle }}
+                    ></PlaceIcon>
+                  }{" "}
+                  {data &&
+                    data.exposures &&
+                    data.exposures.filter(
+                      (exposure) => exposure.type === "room"
+                    ).length}
+                </div>
+              </Grid>
+                  </Grid>
+                </div>
+              </div>
+              </div>
             </div>
             <h2>Contacts & Contaminations</h2>
-            <div
-              className="subdued-text capitalized incident-content rounded-sm with-margins padded"
-              style={{ marginLeft: "20px" }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={2}>
-                  Full name
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Role
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Time of occurrence
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Duration
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  Distance
-                </Grid>
-              </Grid>
-            </div>
-            {data &&
-              data.exposures.map((exposure, index) => {
-                const duration =
-                  exposure.duration / 60000 > 1
-                    ? `${exposure.duration / 60000} minutes`
-                    : `${exposure.duration / 60000} minute`;
-                return (
-                  <div className="incident-box">
-                    <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={2}>
-                          <div className="name blue full-name">
-                            {exposure.name}{" "}
-                            {exposure.type === "room" ? "" : `(${exposure.id})`}
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <div className="name blue role">{exposure.role}</div>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <div className="occurrence-time">{exposure.date}</div>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <div className="pathogen">{duration}</div>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <div className="distance">{exposure.distance} m</div>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                          <Button
-                            onClick={() =>
-                              handleWatchEventOpen(
-                                exposure,
-                                data.exposures[index + 1]
-                                  ? data.exposures[index + 1]
-                                  : null
-                              )
-                            }
-                          >
-                            ▶ Watch event
-                          </Button>
-                        </Grid>
+              <div className="incident-box">
+                <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
+                  <div
+                    className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
+                    style={{ marginLeft: "20px" }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={2}>
+                        Full name
                       </Grid>
-                    </div>
+                      <Grid item xs={12} md={2}>
+                        Role
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        Time of occurrence
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        Duration
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        Distance
+                      </Grid>
+                    </Grid>
                   </div>
-                );
-              })}
+                  {data &&
+                    data.exposures.map((exposure, index) => {
+                      const duration =
+                        exposure.duration / 60000 > 1
+                          ? `${exposure.duration / 60000} minutes`
+                          : `${exposure.duration / 60000} minute`;
+                      return (
+                        <div className="incident-box">
+                          <div className="incident-content rounded-sm padded with-margins contacts-contaminations ">
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} md={2}>
+                                <div className="name blue bold">
+                                  {exposure.name}<br/>{exposure.type === "room" ? "" : `(${exposure.id})`}
+                                </div>
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                <div className="name blue role bold">{exposure.role}</div>
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                <div className="occurrence-time">{exposure.date}</div>
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                <div className="pathogen">{duration}</div>
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                <div className="distance">{exposure.distance} m</div>
+                              </Grid>
+                              <Grid item xs={12} md={2}>
+                                <Button
+                                  onClick={() =>
+                                    handleWatchEventOpen(
+                                      exposure,
+                                      data.exposures[index + 1]
+                                        ? data.exposures[index + 1]
+                                        : null
+                                    )
+                                  }
+                                >
+                                  ▶ Watch event
+                                </Button>
+                              </Grid>
+                            </Grid>
+                          </div>
+                        </div>
+                      );
+                  })}
+                </div>
+              </div>
+
           </div>
 
           {currentExposure && (
