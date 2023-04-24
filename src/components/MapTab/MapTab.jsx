@@ -35,7 +35,7 @@ function MapTab({ openIncidentDialog }) {
   const [markers, setMarkers] = React.useState();
   const svgRef = React.useRef();
   const [showUninfected, setShowUninfected] = React.useState(true);
-  const [openTooltip, setOpenTooltip] = React.useState(false);
+  const [openTooltip, setOpenTooltip] = React.useState();
   const [positions, setPositions] = React.useState({});
   const closeTooltipRef = React.useRef();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
@@ -137,7 +137,6 @@ function MapTab({ openIncidentDialog }) {
     if (currentDate - mapIconLastUpdatedDate > 30000) {
       return (
         <DeadBatteryIcon
-          setOpenTooltip={(id) => handleOpenTooltip(id)}
           id={`deadbattery-${index}`}
           key={`deadbattery-${index}`}
           posX={data[index].x}

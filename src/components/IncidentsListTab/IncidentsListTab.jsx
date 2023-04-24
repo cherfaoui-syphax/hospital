@@ -404,6 +404,7 @@ function MapTab() {
                     </PersonIcon>
                   }
                   {incident &&
+                    incident.exposures &&
                     incident.exposures.filter(
                       (exposure) => exposure.type === "person"
                     ).length}{" "}
@@ -423,6 +424,7 @@ function MapTab() {
                     ></PlaceIcon>
                   }{" "}
                   {incident &&
+                    incident.exposures &&
                     incident.exposures.filter(
                       (exposure) => exposure.type === "room"
                     ).length}

@@ -286,7 +286,7 @@ function MainContainer({ signOut }) {
 
   const drawer = (
     <div>
-      <div className="logocontainer">
+      <div class="logocontainer">
         {logoUrl ? (
           <a href="https://proxximos.com" style={{ border: 0, outline: 0 }}>
             <img src={logoUrl} style={{ height: "50px" }} alt="Proxximos" />
@@ -430,7 +430,7 @@ function MainContainer({ signOut }) {
           <MenuIcon />
         </IconButton> */}
 
-            <div className="logocontainer">
+            <div class="logocontainer">
               {logoUrl ? (
                 <a
                   href="https://proxximos.com"

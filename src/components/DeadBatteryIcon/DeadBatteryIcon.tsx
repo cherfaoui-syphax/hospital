@@ -1,14 +1,8 @@
 import React from "react";
 
-function DeadBatteryIcon({ id, x, y, style , setOpenTooltip }) {
+function DeadBatteryIcon({ id, x, y, style }) {
   return (
     <svg
-      onMouseEnter={() => {
-        setOpenTooltip(id);
-      }}
-      onMouseLeave={() => {
-        setOpenTooltip(null);
-      }}
       id={id ? id : ""}
       width={style.width}
       height={style.height}

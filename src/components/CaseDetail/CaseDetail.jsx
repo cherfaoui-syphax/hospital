@@ -47,12 +47,14 @@ function CaseDetail(props) {
   const actualStartTime = React.useRef();
   const actualDuration = React.useRef();
   const actualEndTime = React.useRef();
+  const seekerRef = React.useRef();
   const { incidentId } = useParams();
   const [seekTime, setSeekTime] = React.useState(0);
   const [timeMarkers, setTimeMarkers] = React.useState([]);
   const [shouldKeepRefreshingData, setShouldKeepRefreshingData] =
     React.useState(true);
   const [nextEvent, setNextEvent] = React.useState();
+  const lastFrameSteps = React.useRef({});
 
   const VIDEO_TIME_UNIT_MILLISECONDS = 1000;
   const TIME_PADDING_END = 30;
@@ -62,6 +64,10 @@ function CaseDetail(props) {
     // replayDataIteration.current = timeMarker / 1000;
     setCurrentAnimationProgress((timeMarker / eventAnimationDuration) * 100);
     setSeekTime(timeMarker);
+  };
+
+  const handleSeek = (evt) => {
+    console.log(evt);
   };
 
   const handleWatchEventOpen = (exposure, nextExposure) => {
@@ -86,7 +92,7 @@ function CaseDetail(props) {
     replayStartTime.current = undefined;
   };
 
-  const HtmlTooltip = styled(({ className, id, ...props }) => {
+  const HtmlTooltip = styled(({ className, id, shouldBeOpen, ...props }) => {
     return (
       <Tooltip
         {...props}
@@ -128,15 +134,15 @@ function CaseDetail(props) {
   const initializeReplayData = async () => {
     const currentDate = new Date(currentExposure.date);
 
-    const minDate = moment(currentDate)
-      .subtract(TIME_PADDING_END, "seconds")
-      .format();
+    const minDate = moment(currentDate).subtract(10800, "seconds").format();
     const maxDate = moment(currentDate)
-      .add(currentExposure.duration / 1000 + TIME_PADDING_END, "seconds")
+      .add(currentExposure.duration / 1000 + 10800, "seconds")
       .format();
 
+    const eventParticipantIds = `${data.id},${currentExposure.id}`;
+
     const resp = await fetch(
-      `https://rtls.proxximos.com/beacon_history?min=${minDate}&max=${maxDate}`
+      `https://rtls.proxximos.com/beacon_history?min=${minDate}&max=${maxDate}&ids=${eventParticipantIds}`
     );
 
     const jsonData = await resp.json();
@@ -199,38 +205,122 @@ function CaseDetail(props) {
   const mapIcon = (index, frameStep, item) => {
     const infectionOccurred =
       new Date(replayData[index][frameStep].date).getTime() >=
-      new Date(currentExposure.date).getTime();
+        new Date(currentExposure.date).getTime() &&
+      replayData[index][frameStep].id === parseInt(currentExposure.id);
 
-    console.log(dummyMetadata[index].disease);
+    if (replayData[index][frameStep].id === parseInt(data.id)) {
+      return (
+        <>
+          {lastFrameSteps.current[index] === frameStep ? (
+            <BugIcon
+              setOpenTooltip={(id) => handleOpenTooltip(id)}
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              posX={replayData[index][frameStep].x}
+              posY={replayData[index][frameStep].y}
+              fill={color["infected-index-case"]}
+              style={{
+                width: "110px",
+                height: "110px",
+              }}
+            />
+          ) : (
+            <div
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              onMouseEnter={() => {
+                setOpenTooltip(`bug-${index}-${frameStep}`);
+              }}
+              onMouseLeave={() => {
+                setOpenTooltip(null);
+              }}
+              style={{
+                borderRadius: "30px",
+                backgroundColor: color["infected-index-case"],
+                width: 20,
+                height: 20,
+                position: "absolute",
+              }}
+            ></div>
+          )}
+        </>
+      );
+    }
 
     if (infectionOccurred) {
       return (
         <>
-          <BugIcon
-            setOpenTooltip={(id) => handleOpenTooltip(id)}
-            id={`bug-${index}-${frameStep}`}
-            key={`bug-${index}-${frameStep}`}
-            posX={replayData[index][frameStep].x}
-            posY={replayData[index][frameStep].y}
-            fill={color[dummyMetadata[index].disease]}
-            style={{
-              width: "110px",
-              height: "110px",
-            }}
-          />
+          {lastFrameSteps.current[index] === frameStep ? (
+            <BugIcon
+              setOpenTooltip={(id) => handleOpenTooltip(id)}
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              posX={replayData[index][frameStep].x}
+              posY={replayData[index][frameStep].y}
+              fill={color["infected-contact"]}
+              style={{
+                width: "110px",
+                height: "110px",
+              }}
+            />
+          ) : (
+            <div
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              onMouseEnter={() => {
+                setOpenTooltip(`bug-${index}-${frameStep}`);
+              }}
+              onMouseLeave={() => {
+                setOpenTooltip(null);
+              }}
+              style={{
+                borderRadius: "30px",
+                backgroundColor: color["infected-contact"],
+                width: 20,
+                height: 20,
+                position: "absolute",
+              }}
+            ></div>
+          )}
         </>
       );
     }
+
     if (!infectionOccurred) {
       return (
-        <PersonIcon
-          setOpenTooltip={(id) => handleOpenTooltip(id)}
-          id={`bug-${index}-${frameStep}`}
-          key={`bug-${index}-${frameStep}`}
-          posX={replayData[index][frameStep].x}
-          posY={replayData[index][frameStep].y}
-          style={{ color: "#1876D1", width: "110px", height: "110px" }}
-        />
+        <>
+          {lastFrameSteps.current[index] === frameStep ? (
+            <PersonIcon
+              setOpenTooltip={(id) => handleOpenTooltip(id)}
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              posX={replayData[index][frameStep].x}
+              posY={replayData[index][frameStep].y}
+              style={{
+                width: "110px",
+                height: "110px",
+              }}
+            />
+          ) : (
+            <div
+              id={`bug-${index}-${frameStep}`}
+              key={`bug-${index}-${frameStep}`}
+              onMouseEnter={() => {
+                setOpenTooltip(`bug-${index}-${frameStep}`);
+              }}
+              onMouseLeave={() => {
+                setOpenTooltip(null);
+              }}
+              style={{
+                borderRadius: "30px",
+                backgroundColor: color["uninfected"],
+                width: 20,
+                height: 20,
+                position: "absolute",
+              }}
+            ></div>
+          )}
+        </>
       );
     }
 
@@ -621,14 +711,36 @@ function CaseDetail(props) {
                         Object.keys(replayData).map((index) => (
                           <>
                             {Object.keys(replayData[index]).map((frameStep) => {
+                              console.log("index");
+                              console.log(index);
+                              console.log(dummyMetadata[String(index)]);
+                              console.log(replayData);
                               const framePosition =
                                 new Date(
                                   replayData[index][frameStep].date
                                 ).getTime() - actualStartTime.current;
+
+                              if (!replayData[index][frameStep]) {
+                                return <></>;
+                              }
+
+                              if (
+                                lastFrameSteps.current[index] === undefined &&
+                                framePosition <= seekTime
+                              ) {
+                                lastFrameSteps.current[index] = frameStep;
+                              }
+
+                              if (
+                                frameStep > lastFrameSteps.current[index] &&
+                                framePosition <= seekTime
+                              ) {
+                                lastFrameSteps.current[index] = frameStep;
+                              }
+
                               return (
                                 <>
-                                  {replayData[index][frameStep] &&
-                                  framePosition <= seekTime ? (
+                                  {framePosition <= seekTime ? (
                                     <div
                                       // onClickAway={clickAwayListener}
                                       style={{
@@ -642,6 +754,11 @@ function CaseDetail(props) {
                                     >
                                       <HtmlTooltip
                                         id={`bug-${index}-${frameStep}`}
+                                        // shouldBeOpen={true}
+                                        // shouldBeOpen={
+                                        //   replayData[index][frameStep].id ===
+                                        //   currentExposure.id
+                                        // }
                                         leaveDelay={7000}
                                         // open={tooltipOpen === index}
                                         title={
@@ -650,12 +767,12 @@ function CaseDetail(props) {
                                               {dummyMetadata[String(index)] &&
                                                 dummyMetadata[String(index)]
                                                   .name &&
-                                                `Name: ${
+                                                `${
                                                   dummyMetadata[String(index)]
                                                     .name
                                                 }`}
                                             </div>
-                                            <div>
+                                            {/* <div>
                                               {dummyMetadata[String(index)] &&
                                                 dummyMetadata[String(index)]
                                                   .disease &&
@@ -672,7 +789,7 @@ function CaseDetail(props) {
                                                   dummyMetadata[String(index)]
                                                     .date
                                                 }`}
-                                            </div>
+                                            </div> */}
                                           </>
                                         }
                                       >
@@ -716,7 +833,12 @@ function CaseDetail(props) {
                             <Replay5Icon />
                           </Button>
                         </div>
-                        <div className="control seek-container">
+                        <div
+                          ref={seekerRef}
+                          className="control seek-container"
+                          style={{ position: "relative" }}
+                          onClick={(evt) => handleSeek(evt)}
+                        >
                           <div className="seek-time">
                             {moment(seekTime).format("mm:ss")}
                           </div>

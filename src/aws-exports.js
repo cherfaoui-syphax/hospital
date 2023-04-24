@@ -32,7 +32,8 @@ const awsmobile = {
         "EMAIL"
     ],
     "aws_user_files_s3_bucket": "proxximos-london-eaed19ef-prod220302-prod",
-    "aws_user_files_s3_bucket_region": "eu-west-2"
+    "aws_user_files_s3_bucket_region": "eu-west-2",
+    "region": "eu-west-2"
 };
 
 
