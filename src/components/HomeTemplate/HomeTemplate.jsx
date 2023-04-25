@@ -38,7 +38,7 @@ function HomeTemplate() {
 
       <Overview/>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} style={{marginLeft:0}}>
         <Grid item xs={12} md={6} sx={{ height: "100%" }}>
           <Typography
             sx={{ margin: "48px 0px 25px", fontSize: "20px", fontWeight: 700 }}
