@@ -986,7 +986,7 @@ function CaseDetail(props) {
                         </Grid>
                         <Grid item xs={6}>
                           <div className="subdued-text">
-                            {data.role}
+                            {data.role }
                           </div>
                         </Grid>
                       </Grid>
@@ -1006,7 +1006,7 @@ function CaseDetail(props) {
 
                         <Grid item xs={6}>
                           <div className="subdued-text capitalized">
-                            Full name
+                            { currentExposure.role != "Room" ? "Full name" : "Location" } 
                           </div>
                         </Grid>
                         <Grid item xs={6}>
@@ -1014,14 +1014,18 @@ function CaseDetail(props) {
                             {currentExposure.name} <br /> ({currentExposure.id})
                           </div>
                         </Grid>
-                        <Grid item xs={6}>
-                          <div className="subdued-text capitalized">Role</div>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <div className="subdued-text">
-                            {currentExposure.role}
-                          </div>
-                        </Grid>
+                        { currentExposure.role != "Room" &&
+                        <>
+                          <Grid item xs={6}>
+                            <div className="subdued-text capitalized">Role</div>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <div className="subdued-text">
+                              {currentExposure.role}
+                            </div>
+                          </Grid>
+                        </>
+                        }
                         <Grid item xs={6}>
                           <div className="subdued-text capitalized">
                             Duration
@@ -1039,16 +1043,20 @@ function CaseDetail(props) {
                               : "seconds"}
                           </div>
                         </Grid>
-                        <Grid item xs={6}>
-                          <div className="subdued-text capitalized">
-                            Distance
-                          </div>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <div className="subdued-text">
-                            {currentExposure.distance}
-                          </div>
-                        </Grid>
+                        { currentExposure.role != "Room" &&
+                        <>
+                          <Grid item xs={6}>
+                            <div className="subdued-text capitalized">
+                              Distance
+                            </div>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <div className="subdued-text">
+                              {currentExposure.distance}
+                            </div>
+                          </Grid>
+                        </>
+                        }
                       </Grid>
                     </div>
                   </Grid>
