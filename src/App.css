@@ -800,3 +800,8 @@ body .close-button svg {
   margin-bottom: 0;
   padding-bottom: 0;
 }
+.case-detail-card-divider {
+  padding:8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #9c9c9c95;
+}

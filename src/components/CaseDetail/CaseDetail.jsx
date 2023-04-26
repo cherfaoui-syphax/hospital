@@ -28,6 +28,7 @@ import moment from "moment";
 import PlaceIcon from "@mui/icons-material/Place";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import PersonIcon2 from "@mui/icons-material/Person";
+import CircleIcon from '@mui/icons-material/Circle';
 
 function CaseDetail(props) {
   const [rows, setRows] = React.useState([]);
@@ -959,7 +960,14 @@ function CaseDetail(props) {
                     <div className="box-shadow rounded-sm padded with-margins">
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
+                          <CircleIcon
+                            style={{
+                              color:"red",
+                              marginRight:10,
+                              marginBottom:-6
+                              }} />
                           <strong>Index case</strong>
+                          <div className="case-detail-card-divider"></div>
                         </Grid>
                         <Grid item xs={6}>
                           <div className="subdued-text capitalized ">
@@ -967,23 +975,43 @@ function CaseDetail(props) {
                           </div>
                         </Grid>
                         <Grid item xs={6}>
-                          <div className="subdued-text">{data.index.name}</div>
+                          <div className="name blue bold">
+                            {data.index.name} <br /> ({data.index.id})
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            Role
+                          </div>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="subdued-text">
+                            {data.role}
+                          </div>
                         </Grid>
                       </Grid>
                     </div>
                     <div className="box-shadow rounded-sm padded with-margins">
                       <Grid container spacing={2}>
                         <Grid item xs={12}>
+                          <CircleIcon
+                            style={{
+                              color:"#507cd4",
+                              marginRight:10,
+                              marginBottom:-6
+                            }} />
                           <strong>Contacts & contaminations</strong>
+                          <div className="case-detail-card-divider"></div>
                         </Grid>
+
                         <Grid item xs={6}>
                           <div className="subdued-text capitalized">
                             Full name
                           </div>
                         </Grid>
                         <Grid item xs={6}>
-                          <div className="subdued-text">
-                            {currentExposure.name}
+                          <div className="name blue bold">
+                            {currentExposure.name} <br /> ({currentExposure.id})
                           </div>
                         </Grid>
                         <Grid item xs={6}>
