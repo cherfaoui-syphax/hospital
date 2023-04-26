@@ -285,10 +285,8 @@ function MapTab() {
           </div>
         </Grid>
       </Grid>
-      <div 
-        className="capitalized incident-content rounded-sm with-margins padded subdued-text thin-header"
-      >
-        <Grid container spacing={2} xs = {10} md = {10}>
+      <div className="capitalized incident-content rounded-sm with-margins padded subdued-text thin-header">
+        <Grid container spacing={2} xs={10} md={10}>
           <Grid item xs={12} md={2}>
             Date
           </Grid>
@@ -309,89 +307,92 @@ function MapTab() {
       {data?.map((incident, index) => (
         <Grid container>
           <Grid item xs={10} md={10}>
-          <div className="incident-box">
-          <div className="incident-content rounded-sm with-margins padded box-shadow box-shadow-white">
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={2}>
-                <div className="date">{new Date(incident.date).toLocaleDateString("en-US")}</div>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <div className="name blue bold">
-                  {incident.index.name}
-                  <br />
-                  {incident.index.id ? `(${incident.index.id})` : ""}
-                </div>
-              </Grid>
-              <Grid item xs={12} md={1}>
-                <div className="role">{incident.role}</div>
-              </Grid>
-              <Grid item xs={12} md={1}>
-                <div className="pathogen">{incident.pathogen}</div>
-              </Grid>
-              <Grid item xs={12} md={2}>
-                <div className="exposures">
-                  {
-                    <PersonIcon style={{ color: "black", ...iconStyle }}>
-                      {" "}
-                    </PersonIcon>
-                  }
-                  {incident &&
-                    incident.exposures &&
-                    incident.exposures.filter(
-                      (exposure) => exposure.type === "person"
-                    ).length}{" "}
-                  <div
-                    className="subdued-text"
-                    style={{
-                      width: 30,
-                      textAlign: "center",
-                      display: "inline-block",
-                    }}
-                  >
-                    |
-                  </div>
-                  {
-                    <PlaceIcon
-                      style={{ color: "black", ...iconStyle }}
-                    ></PlaceIcon>
-                  }{" "}
-                  {incident &&
-                    incident.exposures &&
-                    incident.exposures.filter(
-                      (exposure) => exposure.type === "room"
-                    ).length}
-                </div>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <a
-                  className="name blue see-contacts bold"
-                  href={`/case/${incident.incident_id}/detail`}
-                >
-                  See contacts & contaminations{" "}
-                  <KeyboardArrowRightIcon
-                    style={iconStyle}
-                  ></KeyboardArrowRightIcon>
-                </a>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
+            <div className="incident-box">
+              <div className="incident-content rounded-sm with-margins padded box-shadow box-shadow-white">
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={2}>
+                    <div className="date">
+                      {new Date(incident.date).toLocaleDateString("en-US")}
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <div className="name blue bold">
+                      {incident.index.name}
+                      <br />
+                      {incident.index.id ? `(${incident.index.id})` : ""}
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={1}>
+                    <div className="role">{incident.role}</div>
+                  </Grid>
+                  <Grid item xs={12} md={1}>
+                    <div className="pathogen">{incident.pathogen}</div>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <div className="exposures">
+                      {
+                        <PersonIcon style={{ color: "black", ...iconStyle }}>
+                          {" "}
+                        </PersonIcon>
+                      }
+                      {incident &&
+                        incident.exposures &&
+                        incident.exposures.filter(
+                          (exposure) => exposure.type === "person"
+                        ).length}{" "}
+                      <div
+                        className="subdued-text"
+                        style={{
+                          width: 30,
+                          textAlign: "center",
+                          display: "inline-block",
+                        }}
+                      >
+                        |
+                      </div>
+                      {
+                        <PlaceIcon
+                          style={{ color: "black", ...iconStyle }}
+                        ></PlaceIcon>
+                      }{" "}
+                      {incident &&
+                        incident.exposures &&
+                        incident.exposures.filter(
+                          (exposure) => exposure.type === "room"
+                        ).length}
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <a
+                      className="name blue see-contacts bold"
+                      href={`/case/${incident.incident_id}/detail`}
+                    >
+                      See contacts & contaminations{" "}
+                      <KeyboardArrowRightIcon
+                        style={iconStyle}
+                      ></KeyboardArrowRightIcon>
+                    </a>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
           </Grid>
           <Grid item xs={2} md={2}>
-          <div className="incident-box">
-          <div className="incident-content rounded-sm with-margins padded ">
-            <a
+            <div className="incident-box">
+              <div className="incident-content rounded-sm with-margins padded ">
+                <a
                   className="printer name blue bold"
                   href={`/case/${incident.id}/print`}
                 >
-                  <LocalPrintshopIcon style={{...iconStyle,  width:"1.5em" , height:"1.5em"}}></LocalPrintshopIcon>{" "}
+                  <LocalPrintshopIcon
+                    style={{ ...iconStyle, width: "1.5em", height: "1.5em" }}
+                  ></LocalPrintshopIcon>{" "}
                   Print
-            </a>
-            </div></div>
+                </a>
+              </div>
+            </div>
           </Grid>
         </Grid>
-
-
       ))}
     </div>
   );

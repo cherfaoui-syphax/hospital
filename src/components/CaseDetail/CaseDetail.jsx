@@ -29,7 +29,6 @@ import PlaceIcon from "@mui/icons-material/Place";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import PersonIcon2 from "@mui/icons-material/Person";
 
-
 function CaseDetail(props) {
   const [rows, setRows] = React.useState([]);
   const [replaying, setReplaying] = React.useState(false);
@@ -51,7 +50,6 @@ function CaseDetail(props) {
   const actualStartTime = React.useRef();
   const actualDuration = React.useRef();
   const actualEndTime = React.useRef();
-  const seekerRef = React.useRef();
   const { incidentId } = useParams();
   const [seekTime, setSeekTime] = React.useState(0);
   const [timeMarkers, setTimeMarkers] = React.useState([]);
@@ -72,7 +70,6 @@ function CaseDetail(props) {
 
   const iconStyle = {
     marginBottom: "-6px",
-  
   };
 
   const handleSeek = (evt) => {
@@ -143,9 +140,11 @@ function CaseDetail(props) {
   const initializeReplayData = async () => {
     const currentDate = new Date(currentExposure.date);
 
-    const minDate = moment(currentDate).subtract(10800, "seconds").format();
+    const minDate = moment(currentDate)
+      .subtract(TIME_PADDING_END, "seconds")
+      .format();
     const maxDate = moment(currentDate)
-      .add(currentExposure.duration / 1000 + 10800, "seconds")
+      .add(currentExposure.duration / 1000 + TIME_PADDING_END, "seconds")
       .format();
 
     const eventParticipantIds = `${data.id},${currentExposure.id}`;
@@ -555,157 +554,175 @@ function CaseDetail(props) {
             <div className="incident-box">
               <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
                 <div
-                    className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
-                    style={{ marginLeft: "20px" }}
+                  className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
+                  style={{ marginLeft: "20px" }}
                 >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={3}>
-                    Date And Time Created
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    Full name
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    Pathogen
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    Infection site
-                  </Grid>
-                  <Grid item xs={12} md={3}>
-                    Contacts | contaminations
-                  </Grid>
-                </Grid>
-              </div>
-              <div className="incident-box">
-                <div className="incident-content rounded-sm padded with-margins   thin-header ">
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={3}>
-                      <div className="date">{data.date}</div>
+                      Date And Time Created
                     </Grid>
                     <Grid item xs={12} md={2}>
-                      <div className="name blue bold">
-                        {data.index.name} <br /> ({data.index.id})
-                      </div>
+                      Full name
                     </Grid>
                     <Grid item xs={12} md={2}>
-                      <div className="role">{data.pathogen}</div>
+                      Pathogen
                     </Grid>
                     <Grid item xs={12} md={2}>
-                      <div className="pathogen">{data.pathogenCategory}</div>
+                      Infection site
                     </Grid>
                     <Grid item xs={12} md={3}>
-                <div className="exposures">
-                  {
-                    <PersonIcon2 style={{ color: "black", ...iconStyle }}>
-                      {" "}
-                    </PersonIcon2>
-                  }
-                  {data &&
-                    data.exposures &&
-                    data.exposures.filter(
-                      (exposure) => exposure.type === "person"
-                    ).length}{" "}
-                  <div
-                    className="subdued-text"
-                    style={{
-                      width: 30,
-                      textAlign: "center",
-                      display: "inline-block",
-                    }}
-                  >
-                    |
-                  </div>
-                  {
-                    <PlaceIcon
-                      style={{ color: "black", ...iconStyle }}
-                    ></PlaceIcon>
-                  }{" "}
-                  {data &&
-                    data.exposures &&
-                    data.exposures.filter(
-                      (exposure) => exposure.type === "room"
-                    ).length}
-                </div>
-              </Grid>
+                      Contacts | contaminations
+                    </Grid>
                   </Grid>
                 </div>
-              </div>
+                <div className="incident-box">
+                  <div className="incident-content rounded-sm padded with-margins   thin-header ">
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={3}>
+                        <div className="date">{data.date}</div>
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        <div className="name blue bold">
+                          {data.index.name} <br /> ({data.index.id})
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        <div className="role">{data.pathogen}</div>
+                      </Grid>
+                      <Grid item xs={12} md={2}>
+                        <div className="pathogen">{data.pathogenCategory}</div>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <div className="exposures">
+                          {
+                            <PersonIcon2
+                              style={{ color: "black", ...iconStyle }}
+                            >
+                              {" "}
+                            </PersonIcon2>
+                          }
+                          {data &&
+                            data.exposures &&
+                            data.exposures.filter(
+                              (exposure) => exposure.type === "person"
+                            ).length}{" "}
+                          <div
+                            className="subdued-text"
+                            style={{
+                              width: 30,
+                              textAlign: "center",
+                              display: "inline-block",
+                            }}
+                          >
+                            |
+                          </div>
+                          {
+                            <PlaceIcon
+                              style={{ color: "black", ...iconStyle }}
+                            ></PlaceIcon>
+                          }{" "}
+                          {data &&
+                            data.exposures &&
+                            data.exposures.filter(
+                              (exposure) => exposure.type === "room"
+                            ).length}
+                        </div>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </div>
               </div>
             </div>
             <h2>Contacts & Contaminations</h2>
-              <div className="incident-box">
-                <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
-                  <div
-                    className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
-                    style={{ marginLeft: "20px" }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={2}>
-                        Full name
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        Role
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        Time of occurrence
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        Duration
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        Distance
-                      </Grid>
+            <div className="incident-box">
+              <div className="incident-content rounded-sm padded with-margins box-shadow box-shadow-white">
+                <div
+                  className="subdued-text capitalized incident-content rounded-sm with-margins padded thin-header"
+                  style={{ marginLeft: "20px" }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={2}>
+                      Full name
                     </Grid>
-                  </div>
-                  {data &&
-                    data.exposures.map((exposure, index) => {
-                      const duration =
-                        exposure.duration / 60000 > 1
-                          ? `${exposure.duration / 60000} minutes`
-                          : `${exposure.duration / 60000} minute`;
-                      return (
-                        <div className="incident-box">
-                          <div className="incident-content rounded-sm padded with-margins contacts-contaminations ">
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} md={2}>
-                                <div className="name blue bold">
-                                  {exposure.name}<br/>{exposure.type === "room" ? "" : `(${exposure.id})`}
-                                </div>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                <div className="name blue role bold">{exposure.role}</div>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                <div className="occurrence-time">{exposure.date}</div>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                <div className="pathogen">{duration}</div>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                <div className="distance">{exposure.distance} m</div>
-                              </Grid>
-                              <Grid item xs={12} md={2}>
-                                <Button
-                                  onClick={() =>
-                                    handleWatchEventOpen(
-                                      exposure,
-                                      data.exposures[index + 1]
-                                        ? data.exposures[index + 1]
-                                        : null
-                                    )
-                                  }
-                                >
-                                  ▶ Watch event
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </div>
-                        </div>
-                      );
-                  })}
+                    <Grid item xs={12} md={2}>
+                      Role
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      Time of occurrence
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      Duration
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      Distance
+                    </Grid>
+                  </Grid>
                 </div>
-              </div>
+                {data &&
+                  data.exposures.map((exposure, index) => {
+                    const mins = moment(exposure.duration).format(
+                      exposure.duration > 60000 ? "m" : "s"
+                    );
+                    const seconds =
+                      exposure.duration > 60000
+                        ? `minutes ${moment(exposure.duration).format(
+                            "s"
+                          )} seconds`
+                        : "seconds";
 
+                    const duration = `${mins} ${seconds}`;
+                    return (
+                      <div className="incident-box">
+                        <div className="incident-content rounded-sm padded with-margins contacts-contaminations ">
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} md={2}>
+                              <div className="name blue bold">
+                                {exposure.name}
+                                <br />
+                                {exposure.type === "room"
+                                  ? ""
+                                  : `(${exposure.id})`}
+                              </div>
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                              <div className="name blue role bold">
+                                {exposure.role}
+                              </div>
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                              <div className="occurrence-time">
+                                {exposure.date}
+                              </div>
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                              <div className="pathogen">{duration}</div>
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                              <div className="distance">
+                                {exposure.distance} m
+                              </div>
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                              <Button
+                                onClick={() =>
+                                  handleWatchEventOpen(
+                                    exposure,
+                                    data.exposures[index + 1]
+                                      ? data.exposures[index + 1]
+                                      : null
+                                  )
+                                }
+                              >
+                                ▶ Watch event
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
           </div>
 
           {currentExposure && (
@@ -766,10 +783,6 @@ function CaseDetail(props) {
                         Object.keys(replayData).map((index) => (
                           <>
                             {Object.keys(replayData[index]).map((frameStep) => {
-                              console.log("index");
-                              console.log(index);
-                              console.log(dummyMetadata[String(index)]);
-                              console.log(replayData);
                               const framePosition =
                                 new Date(
                                   replayData[index][frameStep].date
@@ -888,12 +901,7 @@ function CaseDetail(props) {
                             <Replay5Icon />
                           </Button>
                         </div>
-                        <div
-                          ref={seekerRef}
-                          className="control seek-container"
-                          style={{ position: "relative" }}
-                          onClick={(evt) => handleSeek(evt)}
-                        >
+                        <div className="control seek-container">
                           <div className="seek-time">
                             {moment(seekTime).format("mm:ss")}
                           </div>

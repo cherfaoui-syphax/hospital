@@ -793,9 +793,9 @@ body .close-button svg {
 }
 
 .contacts-contaminations {
-  border-bottom: 1px solid #9c9c9c95
+  border-bottom: 1px solid #9c9c9c95;
 }
-.thin-header{
+.thin-header {
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0;
