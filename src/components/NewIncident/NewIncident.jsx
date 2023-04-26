@@ -58,19 +58,19 @@ function NewIncident() {
 
   const fetchCategories = async () => {
     const data = [
-      { id: 1, name: "category 1" },
-      { id: 2, name: "category 2" },
-      { id: 3, name: "category 3" },
+      { id: 0, name: "Bloodstream" },
+      { id: 1, name: "Gastrointestinal" },
+      { id: 2, name: "Respiratory" },
+      { id: 3, name: "Surgical Site" },
+      { id: 4, name: "UTI" },
     ];
     setPathogenCategories(data);
   };
   const fetchRoles = async () => {
     const data = [
-      { role_id: 1, role_name: "Gastrointestinal" },
-      { role_id: 2, role_name: "Respiratory" },
-      { role_id: 3, role_name: "Surgical Site" },
-      { role_id: 2, role_name: "UTI" },
-      { role_id: 3, role_name: "Bloodstream" },
+      { role_id: 1, role_name: "Surgeon" },
+      { role_id: 2, role_name: "Nurse" },
+      { role_id: 3, role_name: "Janitor" },
     ];
     setRoles(data);
   };
