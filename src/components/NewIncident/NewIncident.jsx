@@ -64,12 +64,13 @@ function NewIncident() {
     ];
     setPathogenCategories(data);
   };
-
   const fetchRoles = async () => {
     const data = [
-      { role_id: 1, role_name: "Surgeon" },
-      { role_id: 2, role_name: "Nurse" },
-      { role_id: 3, role_name: "Janitor" },
+      { role_id: 1, role_name: "Gastrointestinal" },
+      { role_id: 2, role_name: "Respiratory" },
+      { role_id: 3, role_name: "Surgical Site" },
+      { role_id: 2, role_name: "UTI" },
+      { role_id: 3, role_name: "Bloodstream" },
     ];
     setRoles(data);
   };
@@ -157,12 +158,12 @@ function NewIncident() {
                 alignItems: "center",
               }}
             >
-              <div className="subdued-text capitalized">Date</div>
+              <div className="subdued-text capitalized">Date and Time of Symptom Onset</div>
             </Grid>
             <Grid xs={5}>
               <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
                 <DateTimePicker
-                  label="Date"
+                  label="Date and Time of Symptom Onset"
                   inputFormat="D MMM, YYYY hh:mm a"
                   value={date}
                   onChange={(event) => setDate(event.target.value)}
@@ -190,7 +191,7 @@ function NewIncident() {
               <div className="subdued-text capitalized">Full Name</div>
             </Grid>
             <Grid xs={5}>
-              <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
+              <FormControl style={{ margin: "10px 10px 10px 0px" }}  fullWidth>
                 <InputLabel id="demo-simple-select-label">
                   Select patient or staff
                 </InputLabel>
@@ -200,6 +201,7 @@ function NewIncident() {
                   id="demo-simple-select"
                   value={fullName}
                   label="Placeholder"
+                  MenuProps={{ PaperProps: { sx: { maxHeight: "50%" } } }}
                   onChange={(evt) => {
                     setFullName(evt.target.value);
                   }}
@@ -266,12 +268,12 @@ function NewIncident() {
                 alignItems: "center",
               }}
             >
-              <div className="subdued-text capitalized">Pathogen category</div>{" "}
+              <div className="subdued-text capitalized">Infection site</div>{" "}
             </Grid>
             <Grid xs={5}>
               <FormControl style={{ margin: "10px 10px 10px 0px" }} fullWidth>
                 <InputLabel id="demo-simple-select-label">
-                  Select pathogen category
+                  Select infection site
                 </InputLabel>
                 <Select
                   required
